@@ -1,0 +1,801 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Hetu API",
+    "description": "One verdict. Three stories. One connected view.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cases": {
+      "get": {
+        "summary": "List Cases",
+        "operationId": "list_cases_cases_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/CaseSummary"
+                  },
+                  "type": "array",
+                  "title": "Response List Cases Cases Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cases/{slug}": {
+      "get": {
+        "summary": "Get Case",
+        "operationId": "get_case_cases__slug__get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CaseSummary": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "court": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Court"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary"
+          },
+          "is_illustrative": {
+            "type": "boolean",
+            "title": "Is Illustrative"
+          },
+          "gap_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gap Score"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "title",
+          "category",
+          "court",
+          "summary",
+          "is_illustrative",
+          "gap_score"
+        ],
+        "title": "CaseSummary"
+      },
+      "CaseView": {
+        "properties": {
+          "case": {
+            "$ref": "#/components/schemas/CaseSummary"
+          },
+          "gap": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GapView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "judgment": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/JudgmentView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "timeline": {
+            "items": {
+              "$ref": "#/components/schemas/TimelineEventView"
+            },
+            "type": "array",
+            "title": "Timeline"
+          },
+          "media": {
+            "items": {
+              "$ref": "#/components/schemas/MediaView"
+            },
+            "type": "array",
+            "title": "Media"
+          },
+          "public": {
+            "$ref": "#/components/schemas/PublicView"
+          },
+          "sources": {
+            "items": {
+              "$ref": "#/components/schemas/SourceView"
+            },
+            "type": "array",
+            "title": "Sources"
+          }
+        },
+        "type": "object",
+        "required": [
+          "case",
+          "gap",
+          "judgment",
+          "timeline",
+          "media",
+          "public",
+          "sources"
+        ],
+        "title": "CaseView"
+      },
+      "ClaimView": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "verdict": {
+            "type": "string",
+            "enum": [
+              "supported",
+              "contradicted",
+              "absent"
+            ],
+            "title": "Verdict"
+          },
+          "rationale": {
+            "type": "string",
+            "title": "Rationale"
+          },
+          "evidence": {
+            "$ref": "#/components/schemas/Evidence"
+          },
+          "judgment_evidence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Evidence"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "text",
+          "verdict",
+          "rationale",
+          "evidence",
+          "judgment_evidence"
+        ],
+        "title": "ClaimView"
+      },
+      "Evidence": {
+        "properties": {
+          "document": {
+            "type": "string",
+            "title": "Document"
+          },
+          "source_name": {
+            "type": "string",
+            "title": "Source Name"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url"
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published At"
+          },
+          "quote": {
+            "type": "string",
+            "title": "Quote"
+          }
+        },
+        "type": "object",
+        "required": [
+          "document",
+          "source_name",
+          "url",
+          "published_at",
+          "quote"
+        ],
+        "title": "Evidence"
+      },
+      "GapComponentView": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "value": {
+            "type": "number",
+            "title": "Value"
+          },
+          "weight": {
+            "type": "number",
+            "title": "Weight"
+          },
+          "contribution": {
+            "type": "number",
+            "title": "Contribution"
+          },
+          "explanation": {
+            "type": "string",
+            "title": "Explanation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "label",
+          "value",
+          "weight",
+          "contribution",
+          "explanation"
+        ],
+        "title": "GapComponentView"
+      },
+      "GapView": {
+        "properties": {
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "components": {
+            "items": {
+              "$ref": "#/components/schemas/GapComponentView"
+            },
+            "type": "array",
+            "title": "Components"
+          }
+        },
+        "type": "object",
+        "required": [
+          "score",
+          "components"
+        ],
+        "title": "GapView"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Health": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "ok",
+            "title": "Status"
+          },
+          "db": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "unreachable"
+            ],
+            "title": "Db"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "db"
+        ],
+        "title": "Health"
+      },
+      "JudgmentView": {
+        "properties": {
+          "facts": {
+            "type": "string",
+            "title": "Facts"
+          },
+          "motive": {
+            "type": "string",
+            "title": "Motive"
+          },
+          "trigger": {
+            "type": "string",
+            "title": "Trigger"
+          },
+          "court_reasoning": {
+            "type": "string",
+            "title": "Court Reasoning"
+          },
+          "outcome": {
+            "type": "string",
+            "title": "Outcome"
+          },
+          "outcome_direction": {
+            "type": "string",
+            "enum": [
+              "conviction",
+              "acquittal",
+              "other"
+            ],
+            "title": "Outcome Direction"
+          },
+          "legal_provisions": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Legal Provisions"
+          },
+          "evidence": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Evidence"
+            },
+            "type": "object",
+            "title": "Evidence"
+          }
+        },
+        "type": "object",
+        "required": [
+          "facts",
+          "motive",
+          "trigger",
+          "court_reasoning",
+          "outcome",
+          "outcome_direction",
+          "legal_provisions",
+          "evidence"
+        ],
+        "title": "JudgmentView"
+      },
+      "MediaView": {
+        "properties": {
+          "document": {
+            "type": "string",
+            "title": "Document"
+          },
+          "outlet": {
+            "type": "string",
+            "title": "Outlet"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url"
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published At"
+          },
+          "headline": {
+            "type": "string",
+            "title": "Headline"
+          },
+          "framing": {
+            "type": "string",
+            "enum": [
+              "sensational",
+              "procedural",
+              "victim_centric",
+              "accused_centric",
+              "other"
+            ],
+            "title": "Framing"
+          },
+          "tone": {
+            "type": "number",
+            "title": "Tone"
+          },
+          "narratives": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Narratives"
+          },
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/ClaimView"
+            },
+            "type": "array",
+            "title": "Claims"
+          }
+        },
+        "type": "object",
+        "required": [
+          "document",
+          "outlet",
+          "url",
+          "published_at",
+          "headline",
+          "framing",
+          "tone",
+          "narratives",
+          "claims"
+        ],
+        "title": "MediaView"
+      },
+      "PublicView": {
+        "properties": {
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "sentiment": {
+            "items": {
+              "$ref": "#/components/schemas/Share"
+            },
+            "type": "array",
+            "title": "Sentiment"
+          },
+          "themes": {
+            "items": {
+              "$ref": "#/components/schemas/Share"
+            },
+            "type": "array",
+            "title": "Themes"
+          },
+          "reactions": {
+            "items": {
+              "$ref": "#/components/schemas/ReactionView"
+            },
+            "type": "array",
+            "title": "Reactions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total",
+          "sentiment",
+          "themes",
+          "reactions"
+        ],
+        "title": "PublicView"
+      },
+      "ReactionView": {
+        "properties": {
+          "platform": {
+            "type": "string",
+            "title": "Platform"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "sentiment": {
+            "type": "string",
+            "enum": [
+              "support_victim",
+              "support_accused",
+              "neutral_uncertain",
+              "against_media_bias"
+            ],
+            "title": "Sentiment"
+          },
+          "themes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Themes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "platform",
+          "text",
+          "sentiment",
+          "themes"
+        ],
+        "title": "ReactionView"
+      },
+      "Share": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "share": {
+            "type": "number",
+            "title": "Share"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "count",
+          "share"
+        ],
+        "title": "Share"
+      },
+      "SourceView": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "source_type": {
+            "type": "string",
+            "enum": [
+              "judgment",
+              "media",
+              "public"
+            ],
+            "title": "Source Type"
+          },
+          "source_name": {
+            "type": "string",
+            "title": "Source Name"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url"
+          },
+          "published_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Published At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "key",
+          "source_type",
+          "source_name",
+          "url",
+          "published_at"
+        ],
+        "title": "SourceView"
+      },
+      "TimelineEventView": {
+        "properties": {
+          "date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Date"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "phase": {
+            "type": "string",
+            "enum": [
+              "incident",
+              "investigation",
+              "trial",
+              "verdict",
+              "media",
+              "appeal",
+              "other"
+            ],
+            "title": "Phase"
+          },
+          "court_weight": {
+            "type": "number",
+            "title": "Court Weight"
+          },
+          "media_weight": {
+            "type": "number",
+            "title": "Media Weight"
+          },
+          "evidence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Evidence"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "label",
+          "description",
+          "phase",
+          "court_weight",
+          "media_weight",
+          "evidence"
+        ],
+        "title": "TimelineEventView"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

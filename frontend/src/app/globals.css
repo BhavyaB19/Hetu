@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+/* Hetu: near-black ground, warm ivory text, burnt-gold accents. Dark only. */
+@theme {
+  --color-ink: #0b0a08;
+  --color-surface: #13110d;
+  --color-ivory: #e8dcc8;
+  --color-ivory-muted: #a89a85;
+  --color-ivory-faint: #6f6556;
+  --color-gold: #c08a3e;
+  --color-bronze: #b87333;
+  --color-gold-line: rgb(192 138 62 / 0.22);
+  --color-gold-soft: rgb(192 138 62 / 0.08);
+  --color-track: #2a251d;
+  --color-danger: #d4705a;
+  --color-ok: #9bb57f;
+
+  /* Chart hues, validated for colour-vision deficiency on the surface colour. */
+  --color-viz-1: #c98500;
+  --color-viz-2: #d55181;
+  --color-viz-3: #3987e5;
+  --color-viz-4: #199e70;
+
+  --font-serif: var(--font-playfair), Georgia, serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-ivory);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgb(192 138 62 / 0.35);
+}
+
+dialog::backdrop {
+  background: rgb(0 0 0 / 0.7);
+}
+
+@layer components {
+  .gold-rule {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(90deg, transparent, var(--color-gold-line) 15%, var(--color-gold-line) 85%, transparent);
+  }
+
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-gold-line);
+    border-radius: 0.5rem;
+  }
+
+  .eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+
+  .bar {
+    height: 0.5rem;
+    border-radius: 0 4px 4px 0;
+  }
+}

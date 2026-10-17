@@ -1,0 +1,300 @@
+{
+  "case": {
+    "slug": "jan-mat-v-state",
+    "title": "Jan Mat v. State",
+    "category": "Criminal Law",
+    "court": "High Court of the Illustrative State (fictional)",
+    "summary": "A fatal quarrel over parking, a trial-court acquittal, a media campaign, and a High Court conviction for culpable homicide not amounting to murder.",
+    "is_illustrative": true
+  },
+  "documents": [
+    {
+      "key": "judgment-hc",
+      "source_type": "judgment",
+      "source_name": "High Court of the Illustrative State (fictional)",
+      "title": "State v. [ACCUSED_1], Criminal Appeal No. 112 of 2021",
+      "published_at": "2023-02-10",
+      "text": "IN THE HIGH COURT OF THE ILLUSTRATIVE STATE (FICTIONAL)\nCriminal Appeal No. 112 of 2021\nState (Appellant) v. [ACCUSED_1] (Respondent)\nDecided on: 10 February 2023\n\n1. This appeal by the State challenges the judgment dated 20 August 2021 of the Sessions Court, which acquitted the respondent [ACCUSED_1] of the offence under Section 302 of the Indian Penal Code.\n\n2. The prosecution case is that on the evening of 14 March 2019, [VICTIM_1], a 34-year-old shopkeeper, asked [ACCUSED_1] to move his motorcycle, which was blocking the entrance to his shop in the main market. An argument followed. The accused picked up an iron rod from a nearby handcart and struck the deceased once on the head. [VICTIM_1] was taken to the district hospital, where he died the next morning. An FIR was registered on 15 March 2019 under Section 302 IPC.\n\n3. The trial court acquitted the accused for two reasons. First, the eyewitness [WITNESS_1] turned hostile and did not support the prosecution in court. Second, the trial court held that the recovery of the iron rod was not proved, because the recovery witness was not examined.\n\n4. We have examined the record afresh. The independent witness [WITNESS_2], who runs a tea stall opposite the shop, consistently stated that the accused struck the deceased a single blow with the rod after a heated exchange about the parking. Her account is corroborated by CCTV footage from a neighbouring jeweller, which the trial court did not consider. The post-mortem report records one lacerated wound on the head, consistent with a single blow from a blunt object.\n\n5. The hostility of one witness does not erase the evidence of another. The trial court erred in discarding the CCTV footage and the medical evidence while focusing only on the hostile witness. Its conclusion is not a possible view on this record.\n\n6. On motive, the prosecution suggested a long-standing business rivalry. We find no evidence of any prior enmity between the accused and the deceased. The record shows that the two had not met before that evening. The trigger was the parking dispute alone.\n\n7. Nor was the assault premeditated. The rod was picked up from a handcart at the spot, in the heat of a sudden quarrel, and only one blow was struck. The accused did not act in a cruel or unusual manner. These facts bring the case within Exception 4 to Section 300 IPC.\n\n8. During the pendency of this appeal, there was considerable media and public commentary on the case. We record that this commentary has no bearing on our decision, which rests only on the evidence on record.\n\n9. The appeal is partly allowed. The acquittal is set aside. The respondent is convicted under Section 304 Part I IPC for culpable homicide not amounting to murder and is sentenced to rigorous imprisonment for seven years with a fine of Rs. 50,000, to be paid as compensation to the family of the deceased."
+    },
+    {
+      "key": "media-1",
+      "source_type": "media",
+      "source_name": "Prime Hour News (fictional)",
+      "title": "Killer Walks Free: Outrage as Court Acquits Accused in Market Murder",
+      "published_at": "2021-08-22",
+      "text": "Killer Walks Free: Outrage as Court Acquits Accused in Market Murder\n\nA man accused of brutally murdering a shopkeeper in broad daylight walked out of court a free man on Friday. Sources close to the family say the attack was the result of a long-standing feud between the two men over business in the market. Witnesses described how the victim was beaten repeatedly with an iron rod as onlookers watched in horror. Locals allege that the accused enjoys political connections, which they believe explains why the key witness suddenly changed his story. Social media erupted with anger within hours of the verdict."
+    },
+    {
+      "key": "media-2",
+      "source_type": "media",
+      "source_name": "The Civic Ledger (fictional)",
+      "title": "Sessions Court acquits accused in 2019 market death, cites hostile witness",
+      "published_at": "2021-08-21",
+      "text": "Sessions Court acquits accused in 2019 market death, cites hostile witness\n\nThe Sessions Court on Friday acquitted a local resident charged under Section 302 IPC with the death of a shopkeeper in March 2019. In its judgment, the court noted that the main eyewitness turned hostile during the trial. The court also held that the prosecution failed to prove the recovery of the iron rod said to have been used in the assault. The State is expected to consider an appeal."
+    },
+    {
+      "key": "media-3",
+      "source_type": "media",
+      "source_name": "Metro Chronicle (fictional)",
+      "title": "Two years on, a market family still waits for justice",
+      "published_at": "2021-10-05",
+      "text": "Two years on, a market family still waits for justice\n\nThe shutters of a small shop in the main market have stayed down since March 2019. Its owner, a 34-year-old shopkeeper, died after an argument outside the shop turned violent. His family says the police never looked properly at CCTV footage from the street. Since the acquittal in August, relatives have joined a campaign of candlelight marches demanding that the State appeal. 'We are not asking for revenge, only for the truth to be heard,' a family member said."
+    },
+    {
+      "key": "media-4",
+      "source_type": "media",
+      "source_name": "The Courtroom Review (fictional)",
+      "title": "High Court convicts accused under Section 304, finds no premeditation",
+      "published_at": "2023-02-11",
+      "text": "High Court convicts accused under Section 304, finds no premeditation\n\nThe High Court on Friday set aside a 2021 acquittal and convicted the accused in the 2019 market death case under Section 304 Part I IPC. The bench held that the death resulted from a single blow struck during a sudden quarrel over parking, not a planned attack. It relied on an independent witness, CCTV footage and the post-mortem report. The accused was sentenced to seven years of rigorous imprisonment. The court also noted that media commentary played no part in its decision."
+    },
+    {
+      "key": "media-5",
+      "source_type": "media",
+      "source_name": "Prime Hour News (fictional)",
+      "title": "Justice at Last: Market Murderer Convicted After Public Outcry",
+      "published_at": "2023-02-10",
+      "text": "Justice at Last: Market Murderer Convicted After Public Outcry\n\nAfter a relentless public campaign, the High Court has finally convicted the man who murdered a shopkeeper in cold blood in 2019. The verdict is a victory for the thousands who marched for justice. The court found him guilty of murder and sent him to prison, proving that public pressure works."
+    },
+    {"key": "public-1", "source_type": "public", "source_name": "Public forum (illustrative)", "published_at": "2021-08-21", "text": "A man is dead and the accused walks free because one witness changed his story. Where is the justice?"},
+    {"key": "public-2", "source_type": "public", "source_name": "News comment section (illustrative)", "published_at": "2021-08-22", "language": "hi-en", "text": "Witness ko zaroor dhamkaya gaya hoga. Ye system hi aisa hai."},
+    {"key": "public-3", "source_type": "public", "source_name": "Public forum (illustrative)", "published_at": "2021-08-22", "text": "Before deciding he's a killer, maybe read the judgment? The court said the recovery wasn't proved."},
+    {"key": "public-4", "source_type": "public", "source_name": "News comment section (illustrative)", "published_at": "2021-09-03", "text": "Candle march at the market gate this Sunday 6pm. Call me for details: 98765 43210 or DM @justice_for_market"},
+    {"key": "public-5", "source_type": "public", "source_name": "Public forum (illustrative)", "published_at": "2021-09-10", "text": "TV channels have already convicted him. Let the appeal court decide on evidence, not hashtags."},
+    {"key": "public-6", "source_type": "public", "source_name": "Public forum (illustrative)", "published_at": "2021-10-06", "text": "The family's interview broke my heart. The police clearly botched the CCTV."},
+    {"key": "public-7", "source_type": "public", "source_name": "News comment section (illustrative)", "published_at": "2021-10-07", "text": "Honestly I don't know what happened. Both sides are telling different stories."},
+    {"key": "public-8", "source_type": "public", "source_name": "Public forum (illustrative)", "published_at": "2021-11-15", "text": "It was a parking fight that went wrong. Calling him a cold-blooded murderer is unfair."},
+    {"key": "public-9", "source_type": "public", "source_name": "News comment section (illustrative)", "published_at": "2023-02-10", "text": "Finally! Seven years is still too little for taking a life."},
+    {"key": "public-10", "source_type": "public", "source_name": "Public forum (illustrative)", "published_at": "2023-02-10", "text": "Interesting that the HC convicted under 304, not 302. The reporting said murder all along."},
+    {"key": "public-11", "source_type": "public", "source_name": "News comment section (illustrative)", "published_at": "2023-02-11", "text": "Faith in the judiciary restored. Courts take time but they get there."},
+    {"key": "public-12", "source_type": "public", "source_name": "Public forum (illustrative)", "published_at": "2023-02-11", "text": "Seven years for one blow in a sudden fight seems harsh. He never planned this."},
+    {"key": "public-13", "source_type": "public", "source_name": "News comment section (illustrative)", "published_at": "2023-02-11", "language": "hi-en", "text": "Media ne pehle hi faisla suna diya tha, court ne bas evidence dekha."},
+    {"key": "public-14", "source_type": "public", "source_name": "Public forum (illustrative)", "published_at": "2023-02-12", "text": "Not sure the sentence is right either way. Hard to judge from news reports."},
+    {"key": "public-15", "source_type": "public", "source_name": "News comment section (illustrative)", "published_at": "2023-02-12", "text": "Justice for the shopkeeper's family at last."},
+    {"key": "public-16", "source_type": "public", "source_name": "Public forum (illustrative)", "published_at": "2023-02-13", "text": "Waiting to see if this goes to the Supreme Court. Too early to say."}
+  ],
+  "judgment": {
+    "document": "judgment-hc",
+    "facts": "On 14 March 2019, during an argument over a motorcycle blocking his shop, [ACCUSED_1] struck [VICTIM_1], a shopkeeper, once on the head with an iron rod picked up at the spot. [VICTIM_1] died the next morning.",
+    "motive": "None established. The court found no prior enmity; the two had not met before that evening.",
+    "trigger": "A parking dispute: the accused's motorcycle was blocking the entrance to the victim's shop.",
+    "court_reasoning": "One hostile witness does not erase the consistent account of an independent witness, corroborated by CCTV footage and the post-mortem report, all of which the trial court overlooked. A single blow in a sudden quarrel, without premeditation, falls within Exception 4 to Section 300 IPC.",
+    "outcome": "Acquittal set aside. Convicted under Section 304 Part I IPC; seven years' rigorous imprisonment and a Rs. 50,000 fine payable to the victim's family.",
+    "outcome_direction": "conviction",
+    "legal_provisions": [
+      "Section 302 IPC (charged)",
+      "Section 304 Part I IPC (convicted)",
+      "Exception 4 to Section 300 IPC"
+    ],
+    "timeline": [
+      {
+        "date": "2019-03-14",
+        "label": "Market quarrel",
+        "description": "An argument over parking ends with a single blow from an iron rod.",
+        "phase": "incident",
+        "court_weight": 1.0,
+        "evidence": {"document": "judgment-hc", "quote": "The accused picked up an iron rod from a nearby handcart and struck the deceased once on the head."}
+      },
+      {
+        "date": "2019-03-15",
+        "label": "FIR registered",
+        "description": "Police register a case of murder under Section 302 IPC.",
+        "phase": "investigation",
+        "court_weight": 0.3,
+        "evidence": {"document": "judgment-hc", "quote": "An FIR was registered on 15 March 2019 under Section 302 IPC."}
+      },
+      {
+        "date": "2021-08-20",
+        "label": "Trial court acquittal",
+        "description": "The Sessions Court acquits after the eyewitness turns hostile and the weapon recovery is not proved.",
+        "phase": "verdict",
+        "court_weight": 0.8,
+        "evidence": {"document": "judgment-hc", "quote": "the eyewitness [WITNESS_1] turned hostile and did not support the prosecution in court"}
+      },
+      {
+        "date": null,
+        "label": "Media campaign",
+        "description": "Heavy media and public commentary during the appeal, which the court says played no part in its decision.",
+        "phase": "media",
+        "court_weight": 0.05,
+        "evidence": {"document": "judgment-hc", "quote": "We record that this commentary has no bearing on our decision, which rests only on the evidence on record."}
+      },
+      {
+        "date": "2023-02-10",
+        "label": "High Court conviction",
+        "description": "Acquittal reversed; conviction for culpable homicide not amounting to murder.",
+        "phase": "appeal",
+        "court_weight": 1.0,
+        "evidence": {"document": "judgment-hc", "quote": "The appeal is partly allowed. The acquittal is set aside."}
+      }
+    ],
+    "evidence": {
+      "facts": {"document": "judgment-hc", "quote": "The accused picked up an iron rod from a nearby handcart and struck the deceased once on the head."},
+      "motive": {"document": "judgment-hc", "quote": "We find no evidence of any prior enmity between the accused and the deceased."},
+      "trigger": {"document": "judgment-hc", "quote": "The trigger was the parking dispute alone."},
+      "court_reasoning": {"document": "judgment-hc", "quote": "The hostility of one witness does not erase the evidence of another."},
+      "outcome": {"document": "judgment-hc", "quote": "The respondent is convicted under Section 304 Part I IPC for culpable homicide not amounting to murder"}
+    }
+  },
+  "media": [
+    {
+      "document": "media-1",
+      "headline": "Killer Walks Free: Outrage as Court Acquits Accused in Market Murder",
+      "framing": "sensational",
+      "tone": -0.8,
+      "narratives": ["Justice denied", "A powerful accused"],
+      "events_mentioned": [0, 2],
+      "claims": [
+        {
+          "text": "The attack grew out of a long-standing business feud.",
+          "evidence": {"document": "media-1", "quote": "the attack was the result of a long-standing feud between the two men over business in the market"},
+          "verdict": "contradicted",
+          "rationale": "The court found no prior enmity; the two had never met before that evening.",
+          "judgment_evidence": {"document": "judgment-hc", "quote": "We find no evidence of any prior enmity between the accused and the deceased."}
+        },
+        {
+          "text": "The victim was beaten repeatedly with an iron rod.",
+          "evidence": {"document": "media-1", "quote": "the victim was beaten repeatedly with an iron rod"},
+          "verdict": "contradicted",
+          "rationale": "The post-mortem and the independent witness show a single blow.",
+          "judgment_evidence": {"document": "judgment-hc", "quote": "The post-mortem report records one lacerated wound on the head, consistent with a single blow from a blunt object."}
+        },
+        {
+          "text": "The accused has political connections that swayed a witness.",
+          "evidence": {"document": "media-1", "quote": "Locals allege that the accused enjoys political connections"},
+          "verdict": "absent",
+          "rationale": "The judgment says nothing about political connections or why the witness turned hostile.",
+          "judgment_evidence": null
+        }
+      ]
+    },
+    {
+      "document": "media-2",
+      "headline": "Sessions Court acquits accused in 2019 market death, cites hostile witness",
+      "framing": "procedural",
+      "tone": -0.1,
+      "narratives": ["Procedural account of the acquittal"],
+      "events_mentioned": [0, 2],
+      "claims": [
+        {
+          "text": "The main eyewitness turned hostile at trial.",
+          "evidence": {"document": "media-2", "quote": "the main eyewitness turned hostile during the trial"},
+          "verdict": "supported",
+          "rationale": "The High Court records that the eyewitness turned hostile before the trial court.",
+          "judgment_evidence": {"document": "judgment-hc", "quote": "the eyewitness [WITNESS_1] turned hostile and did not support the prosecution in court"}
+        },
+        {
+          "text": "Recovery of the weapon was not proved.",
+          "evidence": {"document": "media-2", "quote": "the prosecution failed to prove the recovery of the iron rod"},
+          "verdict": "supported",
+          "rationale": "This was the trial court's second reason for acquittal.",
+          "judgment_evidence": {"document": "judgment-hc", "quote": "the recovery of the iron rod was not proved, because the recovery witness was not examined"}
+        }
+      ]
+    },
+    {
+      "document": "media-3",
+      "headline": "Two years on, a market family still waits for justice",
+      "framing": "victim_centric",
+      "tone": -0.5,
+      "narratives": ["A grieving family", "Campaign for an appeal"],
+      "events_mentioned": [0, 2, 3],
+      "claims": [
+        {
+          "text": "The victim was a 34-year-old shopkeeper.",
+          "evidence": {"document": "media-3", "quote": "Its owner, a 34-year-old shopkeeper, died after an argument outside the shop turned violent."},
+          "verdict": "supported",
+          "rationale": "Matches the prosecution case accepted by the High Court.",
+          "judgment_evidence": {"document": "judgment-hc", "quote": "[VICTIM_1], a 34-year-old shopkeeper, asked [ACCUSED_1] to move his motorcycle"}
+        },
+        {
+          "text": "The police ignored CCTV footage.",
+          "evidence": {"document": "media-3", "quote": "His family says the police never looked properly at CCTV footage from the street."},
+          "verdict": "absent",
+          "rationale": "The judgment faults the trial court for not considering CCTV footage, but says nothing about how the police handled it.",
+          "judgment_evidence": null
+        }
+      ]
+    },
+    {
+      "document": "media-4",
+      "headline": "High Court convicts accused under Section 304, finds no premeditation",
+      "framing": "procedural",
+      "tone": 0.0,
+      "narratives": ["Legal reasoning explained", "Correcting the record"],
+      "events_mentioned": [0, 4],
+      "claims": [
+        {
+          "text": "The death came from a single blow in a sudden quarrel, not a planned attack.",
+          "evidence": {"document": "media-4", "quote": "the death resulted from a single blow struck during a sudden quarrel over parking, not a planned attack"},
+          "verdict": "supported",
+          "rationale": "The court held the assault was not premeditated and only one blow was struck.",
+          "judgment_evidence": {"document": "judgment-hc", "quote": "The rod was picked up from a handcart at the spot, in the heat of a sudden quarrel, and only one blow was struck."}
+        },
+        {
+          "text": "The sentence is seven years of rigorous imprisonment.",
+          "evidence": {"document": "media-4", "quote": "The accused was sentenced to seven years of rigorous imprisonment."},
+          "verdict": "supported",
+          "rationale": "Matches the sentence in the operative order.",
+          "judgment_evidence": {"document": "judgment-hc", "quote": "is sentenced to rigorous imprisonment for seven years"}
+        },
+        {
+          "text": "Media commentary played no part in the decision.",
+          "evidence": {"document": "media-4", "quote": "The court also noted that media commentary played no part in its decision."},
+          "verdict": "supported",
+          "rationale": "The court expressly recorded this.",
+          "judgment_evidence": {"document": "judgment-hc", "quote": "We record that this commentary has no bearing on our decision"}
+        }
+      ]
+    },
+    {
+      "document": "media-5",
+      "headline": "Justice at Last: Market Murderer Convicted After Public Outcry",
+      "framing": "sensational",
+      "tone": 0.6,
+      "narratives": ["Public pressure delivered justice"],
+      "events_mentioned": [3, 4],
+      "claims": [
+        {
+          "text": "The accused was convicted of murder.",
+          "evidence": {"document": "media-5", "quote": "The court found him guilty of murder and sent him to prison"},
+          "verdict": "contradicted",
+          "rationale": "The conviction is for culpable homicide not amounting to murder, not murder.",
+          "judgment_evidence": {"document": "judgment-hc", "quote": "convicted under Section 304 Part I IPC for culpable homicide not amounting to murder"}
+        },
+        {
+          "text": "The killing was in cold blood.",
+          "evidence": {"document": "media-5", "quote": "the man who murdered a shopkeeper in cold blood in 2019"},
+          "verdict": "contradicted",
+          "rationale": "The court found a sudden quarrel with no premeditation.",
+          "judgment_evidence": {"document": "judgment-hc", "quote": "Nor was the assault premeditated."}
+        },
+        {
+          "text": "Public pressure produced the conviction.",
+          "evidence": {"document": "media-5", "quote": "proving that public pressure works"},
+          "verdict": "contradicted",
+          "rationale": "The court recorded that public commentary had no bearing on its decision.",
+          "judgment_evidence": {"document": "judgment-hc", "quote": "this commentary has no bearing on our decision, which rests only on the evidence on record"}
+        }
+      ]
+    }
+  ],
+  "public": [
+    {"document": "public-1", "sentiment": "support_victim", "themes": ["Demand for justice", "Witness reliability"]},
+    {"document": "public-2", "sentiment": "support_victim", "themes": ["Witness reliability"]},
+    {"document": "public-3", "sentiment": "against_media_bias", "themes": ["Media trial concerns", "Faith in the courts"]},
+    {"document": "public-4", "sentiment": "support_victim", "themes": ["Demand for justice"]},
+    {"document": "public-5", "sentiment": "against_media_bias", "themes": ["Media trial concerns"]},
+    {"document": "public-6", "sentiment": "support_victim", "themes": ["Police investigation", "Demand for justice"]},
+    {"document": "public-7", "sentiment": "neutral_uncertain", "themes": ["Witness reliability"]},
+    {"document": "public-8", "sentiment": "support_accused", "themes": ["Media trial concerns"]},
+    {"document": "public-9", "sentiment": "support_victim", "themes": ["Demand for justice"]},
+    {"document": "public-10", "sentiment": "against_media_bias", "themes": ["Media trial concerns", "Faith in the courts"]},
+    {"document": "public-11", "sentiment": "support_victim", "themes": ["Faith in the courts"]},
+    {"document": "public-12", "sentiment": "support_accused", "themes": ["Faith in the courts"]},
+    {"document": "public-13", "sentiment": "against_media_bias", "themes": ["Media trial concerns"]},
+    {"document": "public-14", "sentiment": "neutral_uncertain", "themes": ["Faith in the courts"]},
+    {"document": "public-15", "sentiment": "support_victim", "themes": ["Demand for justice"]},
+    {"document": "public-16", "sentiment": "neutral_uncertain", "themes": ["Faith in the courts"]}
+  ]
+}
