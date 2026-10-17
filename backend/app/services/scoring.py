@@ -7,7 +7,7 @@ explanation so the dashboard can show why the score is what it is.
 
 from dataclasses import dataclass
 
-from app.schemas import CaseBundle, Sentiment
+from app.schemas.bundle import CaseBundle, Sentiment
 
 DEFAULT_WEIGHTS = {"factual": 0.30, "framing": 0.25, "sentiment": 0.25, "timeline": 0.20}
 

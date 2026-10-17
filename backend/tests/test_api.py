@@ -1,12 +1,12 @@
 import pytest
 from httpx import ASGITransport, AsyncClient
 
-from app.db import SessionLocal, engine
+from app.db.models import Base
+from app.db.repository import save_case
+from app.db.session import SessionLocal, engine
 from app.main import app
-from app.models import Base
-from app.pipeline import anonymize
-from app.scoring import perception_gap
-from app.store import save_case
+from app.services.pipeline import anonymize
+from app.services.scoring import perception_gap
 
 
 @pytest.fixture

@@ -1,6 +1,6 @@
 import pytest
 
-from app.anonymizer import Anonymizer, Person
+from app.services.anonymizer import Anonymizer, Person
 
 
 @pytest.fixture

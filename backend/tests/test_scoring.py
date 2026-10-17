@@ -1,6 +1,6 @@
 import pytest
 
-from app.scoring import DEFAULT_WEIGHTS, media_weights, perception_gap
+from app.services.scoring import DEFAULT_WEIGHTS, media_weights, perception_gap
 
 
 def test_demo_components(demo):

@@ -10,7 +10,7 @@ os.environ["ANTHROPIC_API_KEY"] = ""
 
 import pytest  # noqa: E402
 
-from app.schemas import CaseBundle  # noqa: E402
+from app.schemas.bundle import CaseBundle  # noqa: E402
 
 FIXTURE = Path(__file__).resolve().parents[1] / "fixtures" / "jan-mat-v-state.json"
 

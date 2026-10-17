@@ -6,9 +6,9 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app import models
-from app.schemas import (
-    CaseBundle,
+from app.db import models
+from app.schemas.bundle import CaseBundle, content_hash
+from app.schemas.views import (
     CaseSummary,
     CaseView,
     ClaimView,
@@ -22,9 +22,8 @@ from app.schemas import (
     Share,
     SourceView,
     TimelineEventView,
-    content_hash,
 )
-from app.scoring import LABELS, GapScore, media_weights
+from app.services.scoring import LABELS, GapScore, media_weights
 
 ALL_RELATIONS = (
     selectinload(models.Case.documents),

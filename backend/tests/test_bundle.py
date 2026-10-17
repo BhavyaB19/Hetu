@@ -1,8 +1,8 @@
 import pytest
 from pydantic import ValidationError
 
-from app.pipeline import anonymize, dedupe
-from app.schemas import CaseBundle, SourceDocument
+from app.schemas.bundle import CaseBundle, SourceDocument
+from app.services.pipeline import anonymize, dedupe
 
 
 def test_demo_fixture_is_valid(demo):

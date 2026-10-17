@@ -2,21 +2,18 @@
 
 import pytest
 
-from app.anonymizer import Person
-from app.extraction import (
-    MAX_ATTEMPTS,
-    ExtractionError,
+from app.schemas.extraction import (
     LLMClaim,
     LLMJudgment,
     LLMMedia,
     LLMPublic,
     LLMReaction,
     LLMTimelineEvent,
-    classify_public,
-    extract_judgment,
-    extract_media,
 )
-from app.pipeline import process
+from app.services.anonymizer import Person
+from app.services.extraction import classify_public, extract_judgment, extract_media
+from app.services.llm import MAX_ATTEMPTS, ExtractionError
+from app.services.pipeline import process
 
 
 class FakeLLM:

@@ -8,6 +8,9 @@
   "paths": {
     "/health": {
       "get": {
+        "tags": [
+          "health"
+        ],
         "summary": "Health",
         "operationId": "health_health_get",
         "responses": {
@@ -26,6 +29,9 @@
     },
     "/cases": {
       "get": {
+        "tags": [
+          "cases"
+        ],
         "summary": "List Cases",
         "operationId": "list_cases_cases_get",
         "responses": {
@@ -48,6 +54,9 @@
     },
     "/cases/{slug}": {
       "get": {
+        "tags": [
+          "cases"
+        ],
         "summary": "Get Case",
         "operationId": "get_case_cases__slug__get",
         "parameters": [

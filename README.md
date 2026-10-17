@@ -94,7 +94,7 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install -e ".[dev]"
 alembic upgrade head
-python -m app.pipeline fixtures/jan-mat-v-state.json
+python -m app.cli fixtures/jan-mat-v-state.json
 uvicorn app.main:app --reload
 ```
 
@@ -114,7 +114,7 @@ Open http://localhost:3000.
 1. Copy `.env.example` to `.env` and set `ANTHROPIC_API_KEY`.
 2. Write a bundle with one judgment, plus any articles and reactions. Use `backend/fixtures/jan-mat-v-state.json`
    as the template and leave out the `judgment`, `media` and `public` sections.
-3. Run `python -m app.pipeline path/to/case.json` from `backend/`. It extracts, anonymizes, scores and saves the
+3. Run `python -m app.cli path/to/case.json` from `backend/`. It extracts, anonymizes, scores and saves the
    case, and writes `case.extracted.json` next to the input.
 
 ## Project structure
@@ -122,16 +122,29 @@ Open http://localhost:3000.
 ```
 backend/
   app/
-    main.py          API routes
-    schemas.py       case bundle and API response models, evidence checks
-    extraction.py    Claude structured extraction with validation and retry
-    anonymizer.py    names to placeholders, contact details removed
-    scoring.py       Perception Gap Index
-    pipeline.py      bundle → extraction → anonymizer → score → database (CLI)
-    store.py         database writes and dashboard queries
-    models.py        tables
-  alembic/           migrations
-  fixtures/          demo case
+    main.py              FastAPI app: wires routers and the database lifecycle
+    cli.py               python -m app.cli: load case bundles into the database
+    api/                 HTTP routes
+      health.py            GET /health
+      cases.py             GET /cases, GET /cases/{slug}
+    core/
+      config.py            settings from .env
+    db/
+      session.py           engine and sessions
+      models.py            tables
+      repository.py        save a case, build dashboard views
+    schemas/
+      bundle.py            case bundle (pipeline input/output) and evidence checks
+      extraction.py        what Claude returns for each extraction call
+      views.py             API response models
+    services/
+      pipeline.py          bundle → extraction → anonymizer → score → database
+      extraction.py        prompts and extractors for judgments, articles, reactions
+      llm.py               Claude client, validate-and-retry loop
+      anonymizer.py        names to placeholders, contact details removed
+      scoring.py           Perception Gap Index
+  alembic/               migrations
+  fixtures/              demo case
   tests/
 frontend/
   src/app/           landing page and case dashboard

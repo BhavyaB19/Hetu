@@ -1,27 +1,23 @@
 """Case pipeline: source documents -> extraction -> anonymizer -> score -> database.
 
-Usage (from backend/):
-    python -m app.pipeline fixtures/jan-mat-v-state.json
-    python -m app.pipeline my-case.json --extract
-
-The input is a case bundle (see app.schemas.CaseBundle). If it has no extraction
-yet, or --extract is given, Claude extracts it (needs ANTHROPIC_API_KEY) and the
-extracted, anonymized bundle is also written next to the input so later runs
-need no API calls.
+The input is a case bundle (see app.schemas.bundle.CaseBundle). If it has no
+extraction yet, or a re-extract is requested, Claude extracts it (needs
+ANTHROPIC_API_KEY) and the extracted, anonymized bundle is also written next to
+the input so later runs need no API calls. Run it with `python -m app.cli`.
 """
 
-import argparse
 import asyncio
 import logging
 from pathlib import Path
 
-from app.anonymizer import Anonymizer, Person
-from app.config import get_settings
-from app.db import SessionLocal
-from app.extraction import LLM, ClaudeLLM, classify_public, extract_judgment, extract_media
-from app.schemas import CaseBundle, SourceDocument, content_hash
-from app.scoring import perception_gap
-from app.store import save_case
+from app.core.config import get_settings
+from app.db.repository import save_case
+from app.db.session import SessionLocal
+from app.schemas.bundle import CaseBundle, SourceDocument, content_hash
+from app.services.anonymizer import Anonymizer, Person
+from app.services.extraction import classify_public, extract_judgment, extract_media
+from app.services.llm import LLM, ClaudeLLM
+from app.services.scoring import perception_gap
 
 log = logging.getLogger("hetu.pipeline")
 
@@ -119,7 +115,8 @@ async def process(bundle: CaseBundle, llm: LLM | None, force_extract: bool = Fal
 async def run(path: Path, force_extract: bool) -> None:
     settings = get_settings()
     key = settings.anthropic_api_key
-    llm = ClaudeLLM(key.get_secret_value(), settings.anthropic_model) if key else None
+    has_key = key is not None and key.get_secret_value()
+    llm = ClaudeLLM(key.get_secret_value(), settings.anthropic_model) if has_key else None
 
     raw = CaseBundle.model_validate_json(path.read_text(encoding="utf-8"))
     bundle = await process(raw, llm, force_extract)
@@ -132,17 +129,3 @@ async def run(path: Path, force_extract: bool) -> None:
     async with SessionLocal() as session:
         await save_case(session, bundle, gap)
     log.info("Saved %s: Perception Gap Index %.1f", bundle.case.slug, gap.score)
-
-
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Process case bundles into the database.")
-    parser.add_argument("files", nargs="+", type=Path)
-    parser.add_argument("--extract", action="store_true", help="Re-extract even if already extracted")
-    args = parser.parse_args()
-    logging.basicConfig(level=logging.INFO, format="%(message)s")
-    for path in args.files:
-        asyncio.run(run(path, args.extract))
-
-
-if __name__ == "__main__":
-    main()

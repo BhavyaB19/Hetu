@@ -46,7 +46,7 @@ export default async function Home() {
           </p>
         ) : cases.length === 0 ? (
           <p className="card p-6 text-sm text-ivory-muted">
-            No cases yet. Load the demo with <code className="text-gold">python -m app.pipeline fixtures/jan-mat-v-state.json</code>.
+            No cases yet. Load the demo with <code className="text-gold">python -m app.cli fixtures/jan-mat-v-state.json</code>.
           </p>
         ) : (
           <ul className="grid gap-4 md:grid-cols-2">
