@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { CaseSearch } from "@/components/CaseSearch";
 import { API_URL, api } from "@/lib/api";
 
 export const dynamic = "force-dynamic";
@@ -25,7 +24,6 @@ export default async function Home() {
           Hetu connects a court judgment with its news coverage and public reaction, and measures how far the
           narratives drift from what the court found.
         </p>
-        <CaseSearch />
       </section>
 
       <section className="grid gap-4 sm:grid-cols-3">
@@ -48,7 +46,7 @@ export default async function Home() {
           </p>
         ) : cases.length === 0 ? (
           <p className="card p-6 text-sm text-ivory-muted">
-            No cases yet. Analyse one above, or load the demo with <code className="text-gold">python -m app.cli load fixtures/jan-mat-v-state.json</code>.
+            No published cases yet. An admin must publish a case or load the demo with <code className="text-gold">python -m app.cli load fixtures/jan-mat-v-state.json</code>.
           </p>
         ) : (
           <ul className="grid gap-4 md:grid-cols-2">

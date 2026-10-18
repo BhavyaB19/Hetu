@@ -23,6 +23,9 @@ class CaseSummary(BaseModel):
     court: str | None
     summary: str | None
     is_illustrative: bool
+    status: str = "decided"
+    review_state: str = "draft"
+    featured: bool = False
     gap_score: float | None
 
 
@@ -123,6 +126,13 @@ class CaseRequest(BaseModel):
     name: str = Field(min_length=3, max_length=300, description='Case name, e.g. "State v. Example"')
     court: str | None = Field(default=None, max_length=200)
     category: str = "Criminal Law"
+    status: Literal["ongoing", "decided"] = "decided"
+
+
+class CasePatchRequest(BaseModel):
+    review_state: Literal["draft", "reviewed", "published"] | None = None
+    featured: bool | None = None
+    status: Literal["ongoing", "decided"] | None = None
 
 
 class JobEventView(BaseModel):

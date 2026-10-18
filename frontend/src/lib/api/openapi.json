@@ -1,4 +1,4 @@
-{
+﻿{
   "openapi": "3.1.0",
   "info": {
     "title": "Hetu API",
@@ -50,46 +50,6 @@
             }
           }
         }
-      },
-      "post": {
-        "tags": [
-          "jobs"
-        ],
-        "summary": "Start Case",
-        "description": "Start collecting and analysing a case in the background. Poll /jobs/{id} for progress.",
-        "operationId": "start_case_cases_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CaseRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "202": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/JobView"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/cases/{slug}": {
@@ -134,13 +94,126 @@
         }
       }
     },
-    "/jobs/{job_id}": {
+    "/admin/cases": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Start Case",
+        "description": "Start background collection and analysis for a case. Admin only.",
+        "operationId": "start_case_admin_cases_post",
+        "parameters": [
+          {
+            "name": "x-admin-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Admin-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CaseRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
       "get": {
         "tags": [
-          "jobs"
+          "admin"
+        ],
+        "summary": "List Cases Admin",
+        "description": "List all cases including draft and reviewed cases. Admin only.",
+        "operationId": "list_cases_admin_admin_cases_get",
+        "parameters": [
+          {
+            "name": "x-admin-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Admin-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CaseSummary"
+                  },
+                  "title": "Response List Cases Admin Admin Cases Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/jobs/{job_id}": {
+      "get": {
+        "tags": [
+          "admin"
         ],
         "summary": "Get Job",
-        "operationId": "get_job_jobs__job_id__get",
+        "description": "Fetch status and log events for a background job. Admin only.",
+        "operationId": "get_job_admin_jobs__job_id__get",
         "parameters": [
           {
             "name": "job_id",
@@ -149,6 +222,22 @@
             "schema": {
               "type": "string",
               "title": "Job Id"
+            }
+          },
+          {
+            "name": "x-admin-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Admin-Key"
             }
           }
         ],
@@ -175,10 +264,186 @@
           }
         }
       }
+    },
+    "/admin/cases/{slug}/preview": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Preview Case",
+        "description": "Preview case dashboard regardless of review state. Admin only.",
+        "operationId": "preview_case_admin_cases__slug__preview_get",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "x-admin-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Admin-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/cases/{slug}": {
+      "patch": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Patch Case",
+        "description": "Update publication state, status, or featured flag. Admin only.",
+        "operationId": "patch_case_admin_cases__slug__patch",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Slug"
+            }
+          },
+          {
+            "name": "x-admin-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Admin-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CasePatchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseSummary"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "CasePatchRequest": {
+        "properties": {
+          "review_state": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "draft",
+                  "reviewed",
+                  "published"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Review State"
+          },
+          "featured": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Featured"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "ongoing",
+                  "decided"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "title": "CasePatchRequest"
+      },
       "CaseRequest": {
         "properties": {
           "name": {
@@ -204,6 +469,15 @@
             "type": "string",
             "title": "Category",
             "default": "Criminal Law"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ongoing",
+              "decided"
+            ],
+            "title": "Status",
+            "default": "decided"
           }
         },
         "type": "object",
@@ -251,6 +525,21 @@
           "is_illustrative": {
             "type": "boolean",
             "title": "Is Illustrative"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "decided"
+          },
+          "review_state": {
+            "type": "string",
+            "title": "Review State",
+            "default": "draft"
+          },
+          "featured": {
+            "type": "boolean",
+            "title": "Featured",
+            "default": false
           },
           "gap_score": {
             "anyOf": [

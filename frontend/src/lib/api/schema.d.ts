@@ -31,11 +31,7 @@ export interface paths {
         /** List Cases */
         get: operations["list_cases_cases_get"];
         put?: never;
-        /**
-         * Start Case
-         * @description Start collecting and analysing a case in the background. Poll /jobs/{id} for progress.
-         */
-        post: operations["start_case_cases_post"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -59,15 +55,42 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/jobs/{job_id}": {
+    "/admin/cases": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get Job */
-        get: operations["get_job_jobs__job_id__get"];
+        /**
+         * List Cases Admin
+         * @description List all cases including draft and reviewed cases. Admin only.
+         */
+        get: operations["list_cases_admin_admin_cases_get"];
+        put?: never;
+        /**
+         * Start Case
+         * @description Start background collection and analysis for a case. Admin only.
+         */
+        post: operations["start_case_admin_cases_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/jobs/{job_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Job
+         * @description Fetch status and log events for a background job. Admin only.
+         */
+        get: operations["get_job_admin_jobs__job_id__get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -76,10 +99,59 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/cases/{slug}/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Preview Case
+         * @description Preview case dashboard regardless of review state. Admin only.
+         */
+        get: operations["preview_case_admin_cases__slug__preview_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/cases/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Patch Case
+         * @description Update publication state, status, or featured flag. Admin only.
+         */
+        patch: operations["patch_case_admin_cases__slug__patch"];
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** CasePatchRequest */
+        CasePatchRequest: {
+            /** Review State */
+            review_state?: ("draft" | "reviewed" | "published") | null;
+            /** Featured */
+            featured?: boolean | null;
+            /** Status */
+            status?: ("ongoing" | "decided") | null;
+        };
         /** CaseRequest */
         CaseRequest: {
             /**
@@ -94,6 +166,12 @@ export interface components {
              * @default Criminal Law
              */
             category: string;
+            /**
+             * Status
+             * @default decided
+             * @enum {string}
+             */
+            status: "ongoing" | "decided";
         };
         /** CaseSummary */
         CaseSummary: {
@@ -109,6 +187,21 @@ export interface components {
             summary: string | null;
             /** Is Illustrative */
             is_illustrative: boolean;
+            /**
+             * Status
+             * @default decided
+             */
+            status: string;
+            /**
+             * Review State
+             * @default draft
+             */
+            review_state: string;
+            /**
+             * Featured
+             * @default false
+             */
+            featured: boolean;
             /** Gap Score */
             gap_score: number | null;
         };
@@ -404,39 +497,6 @@ export interface operations {
             };
         };
     };
-    start_case_cases_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CaseRequest"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            202: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["JobView"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
     get_case_cases__slug__get: {
         parameters: {
             query?: never;
@@ -468,10 +528,78 @@ export interface operations {
             };
         };
     };
-    get_job_jobs__job_id__get: {
+    list_cases_admin_admin_cases_get: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "x-admin-key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CaseSummary"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    start_case_admin_cases_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-admin-key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CaseRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JobView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_job_admin_jobs__job_id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-admin-key"?: string | null;
+            };
             path: {
                 job_id: string;
             };
@@ -486,6 +614,76 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["JobView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    preview_case_admin_cases__slug__preview_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-admin-key"?: string | null;
+            };
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CaseView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    patch_case_admin_cases__slug__patch: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-admin-key"?: string | null;
+            };
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CasePatchRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CaseSummary"];
                 };
             };
             /** @description Validation Error */
