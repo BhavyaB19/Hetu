@@ -1,0 +1,34 @@
+# Development mode. `docker compose up` loads this file automatically on top of
+# docker-compose.yml: your source folders are mounted into the containers and both
+# servers reload when you save a file. No rebuild needed for code changes.
+#
+# Rebuild (`docker compose up --build`) only after changing dependencies
+# (backend/pyproject.toml or frontend/package.json).
+#
+# For a production-style build without live reload:
+#   docker compose -f docker-compose.yml up --build
+
+services:
+  backend:
+    command: >
+      sh -c "alembic upgrade head
+      && python -m app.cli load fixtures/jan-mat-v-state.json
+      && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir app"
+    environment:
+      # Docker Desktop on Windows does not pass file-change events through to mounted
+      # folders, so the reloader polls for changes instead.
+      WATCHFILES_FORCE_POLLING: "true"
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+    environment:
+      WATCHPACK_POLLING: "true"
+    volumes:
+      - ./frontend:/app
+      # Keep the container's own Linux node_modules and build cache, not the Windows ones.
+      - /app/node_modules
+      - /app/.next
