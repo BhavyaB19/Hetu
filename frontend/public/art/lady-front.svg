@@ -1,0 +1,74 @@
+<!-- PLACEHOLDER FOR MANUAL POLISH: Hetu Lady Justice Reveal Front View -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="100%" height="100%" fill="none" stroke="currentColor">
+  <defs>
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c08a3e" />
+      <stop offset="100%" stop-color="#e8dcc8" />
+    </linearGradient>
+    <linearGradient id="robe-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f1a14" />
+      <stop offset="100%" stop-color="#13110d" />
+    </linearGradient>
+  </defs>
+
+  <!-- Pedestal -->
+  <g id="pedestal" stroke="#c08a3e" stroke-width="2">
+    <rect x="140" y="540" width="120" height="30" rx="4" fill="url(#robe-grad)" />
+    <path d="M150 540 L165 500 L235 500 L250 540 Z" fill="url(#robe-grad)" />
+  </g>
+
+  <!-- Gown & Torso -->
+  <g id="body" fill="url(#robe-grad)" stroke="#c08a3e" stroke-width="1.5">
+    <path d="M165 500 Q155 350 160 270 Q140 250 145 220 L255 220 Q260 250 240 270 Q245 350 235 500 Z" />
+    <!-- Drapes -->
+    <path d="M175 240 Q185 360 170 490" stroke="#c08a3e" stroke-width="1" opacity="0.6" />
+    <path d="M200 230 Q200 370 200 495" stroke="#c08a3e" stroke-width="1" opacity="0.6" />
+    <path d="M225 240 Q215 360 230 490" stroke="#c08a3e" stroke-width="1" opacity="0.6" />
+  </g>
+
+  <!-- Arms -->
+  <g id="arms" stroke="#c08a3e" stroke-width="2" stroke-linecap="round">
+    <!-- Right arm holding sword downward -->
+    <path d="M150 230 L110 300 L105 390" />
+    <!-- Sword -->
+    <path d="M105 380 L105 520" stroke="url(#gold-grad)" stroke-width="2.5" />
+    <path d="M95 400 L115 400" stroke="#c08a3e" stroke-width="2" />
+
+    <!-- Left arm raised holding scales -->
+    <path d="M250 230 L290 170 L330 160" />
+  </g>
+
+  <!-- Mini Scales in Hand -->
+  <g id="hand-scales" stroke="#c08a3e" stroke-width="1.5">
+    <circle cx="330" cy="160" r="3" fill="#c08a3e" />
+    <path d="M305 175 L355 175" stroke="url(#gold-grad)" stroke-width="2" />
+    <path d="M310 175 L300 215 M320 175 L300 215" opacity="0.7" />
+    <path d="M290 215 Q300 225 310 215 Z" fill="#c08a3e" />
+    <path d="M340 175 L350 215 M350 175 L350 215" opacity="0.7" />
+    <path d="M340 215 Q350 225 360 215 Z" fill="#c08a3e" />
+  </g>
+
+  <!-- Head & Hair -->
+  <g id="head" stroke="#c08a3e" stroke-width="1.5">
+    <path d="M185 220 L185 195 Q180 190 185 180 L215 180 Q220 190 215 195 L215 220 Z" fill="url(#robe-grad)" />
+    <!-- Face Contour -->
+    <path d="M185 175 Q182 140 200 135 Q218 140 215 175 Q200 190 185 175 Z" fill="#13110d" />
+    <!-- Hair Updo -->
+    <path d="M180 145 Q200 120 220 145 Q210 120 190 120 Z" fill="#c08a3e" opacity="0.9" />
+
+    <!-- Revealed Eyes beneath blindfold -->
+    <g id="eyes" opacity="0">
+      <ellipse cx="193" cy="155" rx="3.5" ry="2" fill="#e8dcc8" />
+      <circle cx="193" cy="155" r="1.5" fill="#0b0a08" />
+      <ellipse cx="207" cy="155" rx="3.5" ry="2" fill="#e8dcc8" />
+      <circle cx="207" cy="155" r="1.5" fill="#0b0a08" />
+    </g>
+
+    <!-- Removable Blindfold Layer -->
+    <g id="blindfold">
+      <rect x="180" y="148" width="40" height="14" rx="3" fill="#c08a3e" stroke="#e8dcc8" stroke-width="1" />
+      <path d="M180 155 Q175 160 170 175" stroke="#c08a3e" stroke-width="2" />
+      <path d="M220 155 Q225 160 230 175" stroke="#c08a3e" stroke-width="2" />
+    </g>
+  </g>
+</svg>
