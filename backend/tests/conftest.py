@@ -7,7 +7,7 @@ from pathlib import Path
 default_test_url = (
     "postgresql+asyncpg://hetu:hetu@postgres:5432/hetu_test"
     if os.environ.get("DATABASE_URL", "").find("@postgres:") != -1
-    else "postgresql+asyncpg://hetu:hetu@localhost:5432/hetu_test"
+    else "postgresql+asyncpg://hetu:hetu@localhost:5433/hetu_test"
 )
 TEST_DB_URL = os.environ.get("TEST_DATABASE_URL") or default_test_url
 os.environ["DATABASE_URL"] = TEST_DB_URL

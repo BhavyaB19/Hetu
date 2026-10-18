@@ -14,8 +14,8 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=(BACKEND_DIR.parent / ".env", ".env"), extra="ignore")
 
     # PostgreSQL is the single database across development, testing, and production.
-    database_url: str = "postgresql+asyncpg://hetu:hetu@localhost:5432/hetu"
-    test_database_url: str = "postgresql+asyncpg://hetu:hetu@localhost:5432/hetu_test"
+    database_url: str = "postgresql+asyncpg://hetu:hetu@localhost:5433/hetu"
+    test_database_url: str = "postgresql+asyncpg://hetu:hetu@localhost:5433/hetu_test"
     redis_url: str | None = None
 
     # Admin API key for protected administration endpoints.
