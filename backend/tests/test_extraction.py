@@ -164,3 +164,94 @@ async def test_pipeline_without_key_refuses_unextracted_case(demo):
     raw.judgment, raw.media, raw.public = None, [], []
     with pytest.raises(RuntimeError, match="ANTHROPIC_API_KEY"):
         await process(raw, None)
+
+
+def test_relevant_passages_keep_long_judgments_small_and_verbatim():
+    from app.services.extraction import relevant_passages
+
+    filler = [f"{i}. The witness examined the documentary record in detail on that date." for i in range(400)]
+    key = "401. The licensed pistol recovered from the accused matched the bullet found at the restaurant."
+    judgment = "\n\n".join([*filler[:200], key, *filler[200:]])
+    article = "Police say the pistol and the bullet from the restaurant were the key evidence."
+
+    excerpt = relevant_passages(judgment, article, budget=2000)
+    assert len(excerpt) <= 2000 + 200  # budget plus separators
+    assert key in excerpt
+    for passage in excerpt.split("\n\n[...]\n\n"):
+        assert passage in judgment  # passages are verbatim slices, so quotes still verify
+
+    short = "1. A short judgment."
+    assert relevant_passages(short, article) == short
+
+
+async def test_unverifiable_claims_are_dropped_without_retry(demo):
+    judgment_doc = demo.document("judgment-hc")
+    article = demo.document("media-1")
+    real_article = "the victim was beaten repeatedly with an iron rod"
+    real_judgment = "consistent with a single blow from a blunt object"
+    answer = LLMMedia(
+        people=[],
+        framing="sensational",
+        tone=-0.7,
+        narratives=["x"],
+        claims=[
+            LLMClaim(
+                text="kept",
+                quote=real_article,
+                verdict="contradicted",
+                rationale="r",
+                judgment_quote=real_judgment,
+            ),
+            LLMClaim(
+                text="fake article quote",
+                quote="not in the article",
+                verdict="absent",
+                rationale="r",
+                judgment_quote=None,
+            ),
+            LLMClaim(
+                text="fake judgment quote",
+                quote=real_article,
+                verdict="supported",
+                rationale="r",
+                judgment_quote="invented",
+            ),
+            LLMClaim(
+                text="absent, bad link",
+                quote=real_article,
+                verdict="absent",
+                rationale="r",
+                judgment_quote="invented",
+            ),
+        ],
+        events_mentioned=[],
+    )
+    llm = FakeLLM({LLMMedia: [answer]})
+    result, _ = await extract_media(llm, article, demo.judgment, judgment_doc)
+    assert len(llm.prompts) == 1  # no retry
+    assert [c.text for c in result.claims] == ["kept", "absent, bad link"]
+    assert result.claims[1].judgment_evidence is None
+
+
+async def test_judgment_findings_are_checkpointed(demo, tmp_path):
+    raw = demo.model_copy(deep=True)
+    raw.judgment, raw.media, raw.public = None, [], []
+    raw.documents = [d for d in raw.documents if d.source_type == "judgment"]
+    checkpoint = tmp_path / "case.judgment.json"
+
+    await process(raw, FakeLLM({LLMJudgment: [judgment_answer()]}), checkpoint=checkpoint)
+    assert checkpoint.exists()
+
+    # A second run reuses the saved findings: the LLM is not asked about the judgment again.
+    no_judgment_calls = FakeLLM({LLMJudgment: []})
+    out = await process(raw, no_judgment_calls, checkpoint=checkpoint)
+    assert no_judgment_calls.prompts == [] and out.judgment is not None
+
+    # Forcing re-extraction, or a changed judgment, ignores the checkpoint.
+    forced = FakeLLM({LLMJudgment: [judgment_answer()]})
+    await process(raw, forced, force_extract=True, checkpoint=checkpoint)
+    assert len(forced.prompts) == 1
+    raw.documents[0].text += "\n\n10. A later paragraph."
+    changed = FakeLLM({LLMJudgment: [judgment_answer()]})
+    await process(raw, changed, checkpoint=checkpoint)
+    assert len(changed.prompts) == 1
