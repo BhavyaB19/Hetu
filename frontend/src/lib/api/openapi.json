@@ -50,6 +50,46 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "jobs"
+        ],
+        "summary": "Start Case",
+        "description": "Start collecting and analysing a case in the background. Poll /jobs/{id} for progress.",
+        "operationId": "start_case_cases_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CaseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/cases/{slug}": {
@@ -93,10 +133,85 @@
           }
         }
       }
+    },
+    "/jobs/{job_id}": {
+      "get": {
+        "tags": [
+          "jobs"
+        ],
+        "summary": "Get Job",
+        "operationId": "get_job_jobs__job_id__get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Job Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "CaseRequest": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 3,
+            "title": "Name",
+            "description": "Case name, e.g. \"State v. Example\""
+          },
+          "court": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Court"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category",
+            "default": "Criminal Law"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "CaseRequest"
+      },
       "CaseSummary": {
         "properties": {
           "slug": {
@@ -408,6 +523,96 @@
           "db"
         ],
         "title": "Health"
+      },
+      "JobEventView": {
+        "properties": {
+          "at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "At"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "level": {
+            "type": "string",
+            "enum": [
+              "info",
+              "warning",
+              "error"
+            ],
+            "title": "Level"
+          }
+        },
+        "type": "object",
+        "required": [
+          "at",
+          "message",
+          "level"
+        ],
+        "title": "JobEventView"
+      },
+      "JobView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "collecting",
+              "analysing",
+              "done",
+              "failed"
+            ],
+            "title": "Status"
+          },
+          "slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Slug"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/JobEventView"
+            },
+            "type": "array",
+            "title": "Events"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "status",
+          "slug",
+          "error",
+          "events"
+        ],
+        "title": "JobView"
       },
       "JudgmentView": {
         "properties": {

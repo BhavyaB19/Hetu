@@ -12,6 +12,7 @@ export type MediaView = Schemas["MediaView"];
 export type PublicView = Schemas["PublicView"];
 export type TimelineEventView = Schemas["TimelineEventView"];
 export type SourceView = Schemas["SourceView"];
+export type JobView = Schemas["JobView"];
 
 /** The API is only called from the server, so this is never exposed to the browser. */
 // 127.0.0.1 rather than localhost: Node may resolve localhost to IPv6, where uvicorn isn't listening.

@@ -1,8 +1,9 @@
 """API response models: what the dashboard receives."""
 
 import datetime as dt
+from typing import Literal
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.schemas.bundle import ClaimVerdict, Framing, OutcomeDirection, Phase, Sentiment, SourceType
 
@@ -116,3 +117,24 @@ class CaseView(BaseModel):
     media: list[MediaView]
     public: PublicView
     sources: list[SourceView]
+
+
+class CaseRequest(BaseModel):
+    name: str = Field(min_length=3, max_length=300, description='Case name, e.g. "State v. Example"')
+    court: str | None = Field(default=None, max_length=200)
+    category: str = "Criminal Law"
+
+
+class JobEventView(BaseModel):
+    at: dt.datetime
+    message: str
+    level: Literal["info", "warning", "error"]
+
+
+class JobView(BaseModel):
+    id: str
+    name: str
+    status: Literal["collecting", "analysing", "done", "failed"]
+    slug: str | None
+    error: str | None
+    events: list[JobEventView]

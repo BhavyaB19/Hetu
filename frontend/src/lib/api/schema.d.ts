@@ -31,7 +31,11 @@ export interface paths {
         /** List Cases */
         get: operations["list_cases_cases_get"];
         put?: never;
-        post?: never;
+        /**
+         * Start Case
+         * @description Start collecting and analysing a case in the background. Poll /jobs/{id} for progress.
+         */
+        post: operations["start_case_cases_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -55,10 +59,42 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/jobs/{job_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Job */
+        get: operations["get_job_jobs__job_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** CaseRequest */
+        CaseRequest: {
+            /**
+             * Name
+             * @description Case name, e.g. "State v. Example"
+             */
+            name: string;
+            /** Court */
+            court?: string | null;
+            /**
+             * Category
+             * @default Criminal Law
+             */
+            category: string;
+        };
         /** CaseSummary */
         CaseSummary: {
             /** Slug */
@@ -155,6 +191,39 @@ export interface components {
              * @enum {string}
              */
             db: "ok" | "unreachable";
+        };
+        /** JobEventView */
+        JobEventView: {
+            /**
+             * At
+             * Format: date-time
+             */
+            at: string;
+            /** Message */
+            message: string;
+            /**
+             * Level
+             * @enum {string}
+             */
+            level: "info" | "warning" | "error";
+        };
+        /** JobView */
+        JobView: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "collecting" | "analysing" | "done" | "failed";
+            /** Slug */
+            slug: string | null;
+            /** Error */
+            error: string | null;
+            /** Events */
+            events: components["schemas"]["JobEventView"][];
         };
         /** JudgmentView */
         JudgmentView: {
@@ -335,6 +404,39 @@ export interface operations {
             };
         };
     };
+    start_case_cases_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CaseRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JobView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     get_case_cases__slug__get: {
         parameters: {
             query?: never;
@@ -353,6 +455,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CaseView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_job_jobs__job_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                job_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JobView"];
                 };
             };
             /** @description Validation Error */
