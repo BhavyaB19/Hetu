@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 
-from app.api import admin, cases, health
+from app.api import admin, cases, health, polls
 from app.core.config import get_settings, secret
 from app.core.limiter import limiter
 from app.db.session import engine
@@ -43,3 +43,4 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.include_router(health.router)
 app.include_router(cases.router)
 app.include_router(admin.router)
+app.include_router(polls.router)

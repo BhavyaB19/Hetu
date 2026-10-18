@@ -392,6 +392,408 @@
           }
         }
       }
+    },
+    "/home": {
+      "get": {
+        "tags": [
+          "polls"
+        ],
+        "summary": "Get Home",
+        "description": "Home summary: featured cases, poll of the week, and live platform counters.",
+        "operationId": "get_home_home_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeSummaryView"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/polls": {
+      "get": {
+        "tags": [
+          "polls"
+        ],
+        "summary": "List Polls",
+        "description": "List polls for decided and published cases (including closed polls read-only).",
+        "operationId": "list_polls_polls_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/PollView"
+                  },
+                  "type": "array",
+                  "title": "Response List Polls Polls Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/polls/{poll_id}": {
+      "get": {
+        "tags": [
+          "polls"
+        ],
+        "summary": "Get Poll",
+        "description": "Fetch poll details. Poll must belong to a decided and published case.",
+        "operationId": "get_poll_polls__poll_id__get",
+        "parameters": [
+          {
+            "name": "poll_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Poll Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PollView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/polls/{poll_id}/vote": {
+      "post": {
+        "tags": [
+          "polls"
+        ],
+        "summary": "Vote On Poll",
+        "description": "Vote or update existing vote on an open poll (upsert).",
+        "operationId": "vote_on_poll_polls__poll_id__vote_post",
+        "parameters": [
+          {
+            "name": "poll_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Poll Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoteRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PollResultsView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/polls/{poll_id}/results": {
+      "get": {
+        "tags": [
+          "polls"
+        ],
+        "summary": "Get Poll Results",
+        "description": "Fetch aggregated results and reason tallies for a poll.",
+        "operationId": "get_poll_results_polls__poll_id__results_get",
+        "parameters": [
+          {
+            "name": "poll_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Poll Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PollResultsView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/polls/{poll_id}/comments": {
+      "post": {
+        "tags": [
+          "polls"
+        ],
+        "summary": "Post Comment",
+        "description": "Create a public comment or reply under a poll with request-time moderation.",
+        "operationId": "post_comment_polls__poll_id__comments_post",
+        "parameters": [
+          {
+            "name": "poll_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Poll Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "polls"
+        ],
+        "summary": "List Comments",
+        "description": "List visible comments for a poll (top-level comments with 1-level nested replies).",
+        "operationId": "list_comments_polls__poll_id__comments_get",
+        "parameters": [
+          {
+            "name": "poll_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Poll Id"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "top",
+                "new"
+              ],
+              "type": "string",
+              "default": "top",
+              "title": "Sort"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommentView"
+                  },
+                  "title": "Response List Comments Polls  Poll Id  Comments Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments/{comment_id}/upvote": {
+      "post": {
+        "tags": [
+          "polls"
+        ],
+        "summary": "Upvote Comment",
+        "description": "Toggle upvote for a comment from this voter.",
+        "operationId": "upvote_comment_comments__comment_id__upvote_post",
+        "parameters": [
+          {
+            "name": "comment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Comment Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommentVoteView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comments/{comment_id}/report": {
+      "post": {
+        "tags": [
+          "polls"
+        ],
+        "summary": "Report Comment",
+        "description": "Report a comment. 3 unique reports auto-hide the comment from the public.",
+        "operationId": "report_comment_comments__comment_id__report_post",
+        "parameters": [
+          {
+            "name": "comment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Comment Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -670,6 +1072,135 @@
         ],
         "title": "ClaimView"
       },
+      "CommentRequest": {
+        "properties": {
+          "body": {
+            "type": "string",
+            "maxLength": 800,
+            "minLength": 3,
+            "title": "Body"
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id"
+          },
+          "handle": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Handle"
+          }
+        },
+        "type": "object",
+        "required": [
+          "body"
+        ],
+        "title": "CommentRequest"
+      },
+      "CommentView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "poll_id": {
+            "type": "string",
+            "title": "Poll Id"
+          },
+          "parent_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Id"
+          },
+          "handle": {
+            "type": "string",
+            "title": "Handle"
+          },
+          "body": {
+            "type": "string",
+            "title": "Body"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "stance": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stance"
+          },
+          "upvotes": {
+            "type": "integer",
+            "title": "Upvotes",
+            "default": 0
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "replies": {
+            "items": {
+              "$ref": "#/components/schemas/CommentView"
+            },
+            "type": "array",
+            "title": "Replies"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "poll_id",
+          "handle",
+          "body",
+          "status",
+          "created_at"
+        ],
+        "title": "CommentView"
+      },
+      "CommentVoteView": {
+        "properties": {
+          "upvoted": {
+            "type": "boolean",
+            "title": "Upvoted"
+          },
+          "upvotes": {
+            "type": "integer",
+            "title": "Upvotes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "upvoted",
+          "upvotes"
+        ],
+        "title": "CommentVoteView"
+      },
       "Evidence": {
         "properties": {
           "document": {
@@ -812,6 +1343,72 @@
           "db"
         ],
         "title": "Health"
+      },
+      "HomeCounters": {
+        "properties": {
+          "total_cases": {
+            "type": "integer",
+            "title": "Total Cases"
+          },
+          "total_votes": {
+            "type": "integer",
+            "title": "Total Votes"
+          },
+          "total_comments": {
+            "type": "integer",
+            "title": "Total Comments"
+          },
+          "avg_perception_gap": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avg Perception Gap"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_cases",
+          "total_votes",
+          "total_comments",
+          "avg_perception_gap"
+        ],
+        "title": "HomeCounters"
+      },
+      "HomeSummaryView": {
+        "properties": {
+          "featured_cases": {
+            "items": {
+              "$ref": "#/components/schemas/CaseSummary"
+            },
+            "type": "array",
+            "title": "Featured Cases"
+          },
+          "poll_of_the_week": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PollView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "counters": {
+            "$ref": "#/components/schemas/HomeCounters"
+          }
+        },
+        "type": "object",
+        "required": [
+          "featured_cases",
+          "poll_of_the_week",
+          "counters"
+        ],
+        "title": "HomeSummaryView"
       },
       "JobEventView": {
         "properties": {
@@ -1043,6 +1640,144 @@
         ],
         "title": "MediaView"
       },
+      "PollResultsView": {
+        "properties": {
+          "poll_id": {
+            "type": "string",
+            "title": "Poll Id"
+          },
+          "total_votes": {
+            "type": "integer",
+            "title": "Total Votes"
+          },
+          "agree": {
+            "type": "integer",
+            "title": "Agree"
+          },
+          "partial": {
+            "type": "integer",
+            "title": "Partial"
+          },
+          "disagree": {
+            "type": "integer",
+            "title": "Disagree"
+          },
+          "agree_pct": {
+            "type": "number",
+            "title": "Agree Pct"
+          },
+          "partial_pct": {
+            "type": "number",
+            "title": "Partial Pct"
+          },
+          "disagree_pct": {
+            "type": "number",
+            "title": "Disagree Pct"
+          },
+          "top_reasons": {
+            "items": {
+              "$ref": "#/components/schemas/ReasonTally"
+            },
+            "type": "array",
+            "title": "Top Reasons"
+          }
+        },
+        "type": "object",
+        "required": [
+          "poll_id",
+          "total_votes",
+          "agree",
+          "partial",
+          "disagree",
+          "agree_pct",
+          "partial_pct",
+          "disagree_pct",
+          "top_reasons"
+        ],
+        "title": "PollResultsView"
+      },
+      "PollView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "case_slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Case Slug"
+          },
+          "case_title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Case Title"
+          },
+          "question": {
+            "type": "string",
+            "title": "Question"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "closed"
+            ],
+            "title": "Status"
+          },
+          "opens_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Opens At"
+          },
+          "closes_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Closes At"
+          },
+          "featured": {
+            "type": "boolean",
+            "title": "Featured",
+            "default": false
+          },
+          "total_votes": {
+            "type": "integer",
+            "title": "Total Votes",
+            "default": 0
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "case_id",
+          "question",
+          "status",
+          "opens_at"
+        ],
+        "title": "PollView"
+      },
       "PublicView": {
         "properties": {
           "total": {
@@ -1116,6 +1851,57 @@
           "themes"
         ],
         "title": "ReactionView"
+      },
+      "ReasonTally": {
+        "properties": {
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          }
+        },
+        "type": "object",
+        "required": [
+          "reason",
+          "count"
+        ],
+        "title": "ReasonTally"
+      },
+      "ReportRequest": {
+        "properties": {
+          "reason": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 3,
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "reason"
+        ],
+        "title": "ReportRequest"
+      },
+      "ReportView": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "reported"
+          },
+          "comment_id": {
+            "type": "string",
+            "title": "Comment Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "comment_id"
+        ],
+        "title": "ReportView"
       },
       "Share": {
         "properties": {
@@ -1298,6 +2084,31 @@
           "type"
         ],
         "title": "ValidationError"
+      },
+      "VoteRequest": {
+        "properties": {
+          "choice": {
+            "type": "string",
+            "enum": [
+              "agree",
+              "partial",
+              "disagree"
+            ],
+            "title": "Choice"
+          },
+          "reasons": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Reasons"
+          }
+        },
+        "type": "object",
+        "required": [
+          "choice"
+        ],
+        "title": "VoteRequest"
       }
     }
   }

@@ -106,7 +106,7 @@ export function JobProgress({ initial }: { initial: JobView }) {
         </div>
       )}
       {job.status === "done" && job.slug && (
-        <Link href={`/cases/${job.slug}`} className="w-fit rounded-md bg-gold px-5 py-2 text-sm font-semibold text-ink hover:bg-bronze">
+        <Link href={`/verdicts/${job.slug}`} className="w-fit rounded-md bg-gold px-5 py-2 text-sm font-semibold text-ink hover:bg-bronze">
           Open the dashboard →
         </Link>
       )}

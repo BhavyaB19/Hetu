@@ -4,7 +4,7 @@ import datetime as dt
 import uuid
 from collections import Counter
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
@@ -14,13 +14,19 @@ from app.schemas.views import (
     CaseSummary,
     CaseView,
     ClaimView,
+    CommentView,
     Evidence,
     GapComponentView,
     GapView,
+    HomeCounters,
+    HomeSummaryView,
     JudgmentView,
     MediaView,
+    PollResultsView,
+    PollView,
     PublicView,
     ReactionView,
+    ReasonTally,
     Share,
     SourceView,
     TimelineEventView,
@@ -37,13 +43,19 @@ ALL_RELATIONS = (
 SENTIMENT_ORDER = ["support_victim", "support_accused", "neutral_uncertain", "against_media_bias"]
 
 
-async def save_case(session: AsyncSession, bundle: CaseBundle, gap: GapScore) -> None:
+async def save_case(
+    session: AsyncSession,
+    bundle: CaseBundle,
+    gap: GapScore,
+    status: str | None = None,
+    review_state: str | None = None,
+) -> None:
     """Replace any stored version of this case with the bundle."""
     existing = await session.scalar(
         select(models.Case).where(models.Case.slug == bundle.case.slug).options(*ALL_RELATIONS)
     )
-    status = existing.status if existing else "decided"
-    review_state = (
+    final_status = status or (existing.status if existing else "decided")
+    final_review_state = review_state or (
         existing.review_state
         if existing
         else ("published" if bundle.case.is_illustrative else "draft")
@@ -61,8 +73,8 @@ async def save_case(session: AsyncSession, bundle: CaseBundle, gap: GapScore) ->
         court=info.court,
         summary=info.summary,
         is_illustrative=info.is_illustrative,
-        status=status,
-        review_state=review_state,
+        status=final_status,
+        review_state=final_review_state,
         featured=featured,
     )
     case.documents = [
@@ -118,6 +130,13 @@ async def save_case(session: AsyncSession, bundle: CaseBundle, gap: GapScore) ->
         ],
         weights=gap.weights,
     )
+    if case.review_state == "published" and case.status == "decided":
+        case.poll = models.Poll(
+            case_id=case.id,
+            question="Do you agree with the court's verdict?",
+            status="open",
+            opens_at=dt.datetime.now(dt.UTC),
+        )
     session.add(case)
     await session.commit()
 
@@ -256,16 +275,50 @@ def _build_case_view(case: models.Case) -> CaseView:
 # --- Living platform repositories: Hearings, Polls, Votes, Comments, Reports, Corrections ---
 
 
+def _build_poll_view(poll: models.Poll) -> PollView:
+    case_obj = poll.__dict__.get("case")
+    votes_list = poll.__dict__.get("votes")
+    return PollView(
+        id=str(poll.id),
+        case_id=str(poll.case_id),
+        case_slug=case_obj.slug if case_obj else None,
+        case_title=case_obj.title if case_obj else None,
+        question=poll.question,
+        status=poll.status,  # type: ignore[arg-type]
+        opens_at=poll.opens_at,
+        closes_at=poll.closes_at,
+        featured=poll.featured,
+        total_votes=len(votes_list) if votes_list is not None else 0,
+    )
+
+
+def _build_comment_view(comment: models.Comment) -> CommentView:
+    raw_replies = comment.__dict__.get("replies") or []
+    return CommentView(
+        id=str(comment.id),
+        poll_id=str(comment.poll_id),
+        parent_id=str(comment.parent_id) if comment.parent_id else None,
+        handle=comment.handle,
+        body=comment.body,
+        status=comment.status,
+        stance=comment.stance,
+        upvotes=comment.upvotes,
+        created_at=comment.created_at,
+        replies=[_build_comment_view(r) for r in raw_replies if r.status == "visible"],
+    )
+
+
 async def list_polls(session: AsyncSession) -> list[models.Poll]:
-    """Public poll list: only polls on decided and published cases."""
+    """Public poll list: includes open and closed polls on decided and published cases."""
     stmt = (
         select(models.Poll)
         .join(models.Case, models.Poll.case_id == models.Case.id)
         .where(
             models.Case.status == "decided",
             models.Case.review_state == "published",
-            models.Poll.status == "open",
+            models.Poll.status.in_(["open", "closed"]),
         )
+        .options(selectinload(models.Poll.case), selectinload(models.Poll.votes))
         .order_by(models.Poll.opens_at.desc())
     )
     return list((await session.scalars(stmt)).all())
@@ -273,7 +326,11 @@ async def list_polls(session: AsyncSession) -> list[models.Poll]:
 
 async def list_polls_admin(session: AsyncSession) -> list[models.Poll]:
     """Admin poll list: all polls."""
-    stmt = select(models.Poll).order_by(models.Poll.opens_at.desc())
+    stmt = (
+        select(models.Poll)
+        .options(selectinload(models.Poll.case), selectinload(models.Poll.votes))
+        .order_by(models.Poll.opens_at.desc())
+    )
     return list((await session.scalars(stmt)).all())
 
 
@@ -287,13 +344,18 @@ async def get_poll(session: AsyncSession, poll_id: uuid.UUID) -> models.Poll | N
             models.Case.status == "decided",
             models.Case.review_state == "published",
         )
+        .options(selectinload(models.Poll.case), selectinload(models.Poll.votes))
     )
     return await session.scalar(stmt)
 
 
 async def get_poll_admin(session: AsyncSession, poll_id: uuid.UUID) -> models.Poll | None:
     """Admin poll view: returns poll for any case."""
-    return await session.scalar(select(models.Poll).where(models.Poll.id == poll_id))
+    return await session.scalar(
+        select(models.Poll)
+        .where(models.Poll.id == poll_id)
+        .options(selectinload(models.Poll.case), selectinload(models.Poll.votes))
+    )
 
 
 async def create_poll(
@@ -355,7 +417,7 @@ async def get_vote(
     return await session.scalar(stmt)
 
 
-async def get_poll_results(session: AsyncSession, poll_id: uuid.UUID) -> dict:
+async def get_poll_results(session: AsyncSession, poll_id: uuid.UUID) -> PollResultsView:
     votes = list(
         (await session.scalars(select(models.Vote).where(models.Vote.poll_id == poll_id))).all()
     )
@@ -366,17 +428,17 @@ async def get_poll_results(session: AsyncSession, poll_id: uuid.UUID) -> dict:
         if isinstance(v.reasons, list):
             for r in v.reasons:
                 reasons_count[str(r)] += 1
-    return {
-        "poll_id": str(poll_id),
-        "total_votes": total,
-        "agree": counts.get("agree", 0),
-        "partial": counts.get("partial", 0),
-        "disagree": counts.get("disagree", 0),
-        "agree_pct": round(counts.get("agree", 0) / total * 100, 1) if total else 0.0,
-        "partial_pct": round(counts.get("partial", 0) / total * 100, 1) if total else 0.0,
-        "disagree_pct": round(counts.get("disagree", 0) / total * 100, 1) if total else 0.0,
-        "top_reasons": reasons_count.most_common(5),
-    }
+    return PollResultsView(
+        poll_id=str(poll_id),
+        total_votes=total,
+        agree=counts.get("agree", 0),
+        partial=counts.get("partial", 0),
+        disagree=counts.get("disagree", 0),
+        agree_pct=round(counts.get("agree", 0) / total * 100, 1) if total else 0.0,
+        partial_pct=round(counts.get("partial", 0) / total * 100, 1) if total else 0.0,
+        disagree_pct=round(counts.get("disagree", 0) / total * 100, 1) if total else 0.0,
+        top_reasons=[ReasonTally(reason=r, count=c) for r, c in reasons_count.most_common(5)],
+    )
 
 
 async def create_comment(
@@ -409,13 +471,22 @@ async def create_comment(
 
 
 async def list_comments_for_poll(
-    session: AsyncSession, poll_id: uuid.UUID, include_held: bool = False
-) -> list[models.Comment]:
-    stmt = select(models.Comment).where(models.Comment.poll_id == poll_id)
+    session: AsyncSession, poll_id: uuid.UUID, sort: str = "top", include_held: bool = False
+) -> list[CommentView]:
+    stmt = (
+        select(models.Comment)
+        .where(models.Comment.poll_id == poll_id, models.Comment.parent_id.is_(None))
+        .options(selectinload(models.Comment.replies))
+    )
     if not include_held:
         stmt = stmt.where(models.Comment.status == "visible")
-    stmt = stmt.order_by(models.Comment.created_at.asc())
-    return list((await session.scalars(stmt)).all())
+    if sort == "new":
+        stmt = stmt.order_by(models.Comment.created_at.desc())
+    else:
+        stmt = stmt.order_by(models.Comment.upvotes.desc(), models.Comment.created_at.desc())
+
+    comments = list((await session.scalars(stmt)).all())
+    return [_build_comment_view(c) for c in comments]
 
 
 async def record_comment_vote(
@@ -450,9 +521,81 @@ async def record_report(
 ) -> models.Report:
     report = models.Report(comment_id=comment_id, voter_hash=voter_hash, reason=reason)
     session.add(report)
+    await session.flush()
+
+    # Rule 4: 3 reports auto-hide the comment
+    report_count = await session.scalar(
+        select(func.count(models.Report.id)).where(models.Report.comment_id == comment_id)
+    )
+    if report_count and report_count >= 3:
+        comment = await session.scalar(
+            select(models.Comment).where(models.Comment.id == comment_id)
+        )
+        if comment and comment.status == "visible":
+            comment.status = "held"
+            comment.hold_reason = "Auto-held: 3 community reports"
+
     await session.commit()
     await session.refresh(report)
     return report
+
+
+async def get_home_summary(session: AsyncSession) -> HomeSummaryView:
+    """Aggregates featured cases, poll of the week, and live platform counters."""
+    # 1. Featured published cases
+    stmt = (
+        select(models.Case)
+        .where(models.Case.review_state == "published", models.Case.featured.is_(True))
+        .options(selectinload(models.Case.gap_score))
+        .order_by(models.Case.title)
+    )
+    featured = list((await session.scalars(stmt)).all())
+    if not featured:
+        # Fallback to top 2 published cases
+        fallback_stmt = (
+            select(models.Case)
+            .where(models.Case.review_state == "published")
+            .options(selectinload(models.Case.gap_score))
+            .order_by(models.Case.title)
+            .limit(2)
+        )
+        featured = list((await session.scalars(fallback_stmt)).all())
+
+    # 2. Poll of the week (featured open poll or latest open poll)
+    poll_stmt = (
+        select(models.Poll)
+        .join(models.Case, models.Poll.case_id == models.Case.id)
+        .where(models.Case.review_state == "published", models.Case.status == "decided")
+        .options(selectinload(models.Poll.case), selectinload(models.Poll.votes))
+        .order_by(models.Poll.featured.desc(), models.Poll.opens_at.desc())
+        .limit(1)
+    )
+    poll_of_week = await session.scalar(poll_stmt)
+
+    # 3. Counters
+    total_cases = await session.scalar(
+        select(func.count(models.Case.id)).where(models.Case.review_state == "published")
+    ) or 0
+    total_votes = await session.scalar(select(func.count(models.Vote.id))) or 0
+    total_comments = await session.scalar(
+        select(func.count(models.Comment.id)).where(models.Comment.status == "visible")
+    ) or 0
+    avg_gap = await session.scalar(
+        select(func.avg(models.GapScore.score))
+        .join(models.Case, models.GapScore.case_id == models.Case.id)
+        .where(models.Case.review_state == "published")
+    )
+
+    return HomeSummaryView(
+        featured_cases=[_summary(c) for c in featured],
+        poll_of_the_week=_build_poll_view(poll_of_week) if poll_of_week else None,
+        counters=HomeCounters(
+            total_cases=total_cases,
+            total_votes=total_votes,
+            total_comments=total_comments,
+            avg_perception_gap=round(avg_gap, 1) if avg_gap is not None else None,
+        ),
+    )
 
 
 async def create_correction(
@@ -500,6 +643,18 @@ async def patch_case(
         case.featured = featured
     if status is not None:
         case.status = status
+
+    if case.review_state == "published" and case.status == "decided":
+        existing_poll = await session.scalar(select(models.Poll).where(models.Poll.case_id == case.id))
+        if not existing_poll:
+            poll = models.Poll(
+                case_id=case.id,
+                question="Do you agree with the court's verdict?",
+                status="open",
+                opens_at=dt.datetime.now(dt.UTC),
+            )
+            session.add(poll)
+
     await session.commit()
     await session.refresh(case)
     return case

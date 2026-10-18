@@ -148,3 +148,103 @@ class JobView(BaseModel):
     slug: str | None
     error: str | None
     events: list[JobEventView]
+
+
+class PollView(BaseModel):
+    id: str
+    case_id: str
+    case_slug: str | None = None
+    case_title: str | None = None
+    question: str
+    status: Literal["open", "closed"]
+    opens_at: dt.datetime
+    closes_at: dt.datetime | None = None
+    featured: bool = False
+    total_votes: int = 0
+
+
+class VoteRequest(BaseModel):
+    choice: Literal["agree", "partial", "disagree"]
+    reasons: list[str] = Field(default_factory=list)
+
+
+class VoteView(BaseModel):
+    choice: Literal["agree", "partial", "disagree"]
+    reasons: list[str]
+    updated_at: dt.datetime
+
+
+class ReasonTally(BaseModel):
+    reason: str
+    count: int
+
+
+class PollResultsView(BaseModel):
+    poll_id: str
+    total_votes: int
+    agree: int
+    partial: int
+    disagree: int
+    agree_pct: float
+    partial_pct: float
+    disagree_pct: float
+    top_reasons: list[ReasonTally]
+
+    def __getitem__(self, item: str) -> object:
+        return getattr(self, item)
+
+
+class CommentRequest(BaseModel):
+    body: str = Field(min_length=3, max_length=800)
+    parent_id: str | None = None
+    handle: str | None = Field(default=None, max_length=50)
+
+
+class CommentView(BaseModel):
+    id: str
+    poll_id: str
+    parent_id: str | None = None
+    handle: str
+    body: str
+    status: str
+    stance: str | None = None
+    upvotes: int = 0
+    created_at: dt.datetime
+    replies: list["CommentView"] = Field(default_factory=list)
+
+
+class CommentVoteView(BaseModel):
+    upvoted: bool
+    upvotes: int
+
+
+class ReportRequest(BaseModel):
+    reason: str = Field(min_length=3, max_length=500)
+
+
+class ReportView(BaseModel):
+    status: str = "reported"
+    comment_id: str
+
+
+class CorrectionView(BaseModel):
+    id: str
+    case_id: str | None
+    kind: str
+    message: str
+    status: str
+    created_at: dt.datetime
+
+
+class HomeCounters(BaseModel):
+    total_cases: int
+    total_votes: int
+    total_comments: int
+    avg_perception_gap: float | None
+
+
+class HomeSummaryView(BaseModel):
+    featured_cases: list[CaseSummary]
+    poll_of_the_week: PollView | None
+    counters: HomeCounters
+

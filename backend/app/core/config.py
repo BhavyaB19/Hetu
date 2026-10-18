@@ -20,6 +20,8 @@ class Settings(BaseSettings):
 
     # Admin API key for protected administration endpoints.
     admin_api_key: SecretStr = SecretStr("hetu-dev-admin-key")
+    # Secret key used for signing voter cookies and generating HMAC voter hashes.
+    voter_hash_secret: SecretStr = SecretStr("hetu-dev-voter-secret")
     # Which LLM extracts structured data. Only this provider is used, and only its key is needed.
     llm_provider: Literal["groq", "openai", "anthropic"] = "anthropic"
     anthropic_api_key: SecretStr | None = None

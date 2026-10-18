@@ -249,7 +249,10 @@ class Comment(Base):
     created_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
     replies: Mapped[list["Comment"]] = relationship(
-        "Comment", cascade="all, delete-orphan", foreign_keys=[parent_id]
+        "Comment",
+        cascade="all, delete-orphan",
+        foreign_keys=[parent_id],
+        order_by="Comment.created_at.asc()",
     )
 
 
