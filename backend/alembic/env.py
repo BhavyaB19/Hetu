@@ -1,6 +1,7 @@
 """Alembic environment using the app's async engine settings."""
 
 import asyncio
+import os
 
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import create_async_engine
@@ -10,7 +11,8 @@ from app.core.config import get_settings
 from app.db.models import Base
 
 target_metadata = Base.metadata
-url = get_settings().database_url
+x_args = context.get_x_argument(as_dictionary=True)
+url = x_args.get("url") or os.environ.get("DATABASE_URL") or get_settings().database_url
 
 
 def run_migrations_offline() -> None:

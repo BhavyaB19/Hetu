@@ -13,8 +13,15 @@ BACKEND_DIR = Path(__file__).resolve().parents[2]
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=(BACKEND_DIR.parent / ".env", ".env"), extra="ignore")
 
-    # SQLite by default so the backend runs with no setup; docker-compose uses Postgres.
-    database_url: str = f"sqlite+aiosqlite:///{BACKEND_DIR / 'hetu.db'}"
+    # PostgreSQL is the single database across development, testing, and production.
+    database_url: str = "postgresql+asyncpg://hetu:hetu@localhost:5433/hetu"
+    test_database_url: str = "postgresql+asyncpg://hetu:hetu@localhost:5433/hetu_test"
+    redis_url: str | None = None
+
+    # Admin API key for protected administration endpoints.
+    admin_api_key: SecretStr = SecretStr("hetu-dev-admin-key")
+    # Secret key used for signing voter cookies and generating HMAC voter hashes.
+    voter_hash_secret: SecretStr = SecretStr("hetu-dev-voter-secret")
     # Which LLM extracts structured data. Only this provider is used, and only its key is needed.
     llm_provider: Literal["groq", "openai", "anthropic"] = "anthropic"
     anthropic_api_key: SecretStr | None = None

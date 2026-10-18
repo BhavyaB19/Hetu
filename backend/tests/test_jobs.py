@@ -10,18 +10,22 @@ from app.agents.base import AgentError
 from app.main import app
 from app.services import jobs
 
+ADMIN_HEADERS = {"X-Admin-Key": "hetu-dev-admin-key"}
+
 
 @pytest.fixture
 async def api():
     jobs._jobs.clear()
     jobs.install_log_capture()
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as client:
+    async with AsyncClient(
+        transport=ASGITransport(app=app), base_url="http://test", headers=ADMIN_HEADERS
+    ) as client:
         yield client
 
 
 async def wait_until_finished(api, job_id: str) -> dict:
     for _ in range(100):
-        job = (await api.get(f"/jobs/{job_id}")).json()
+        job = (await api.get(f"/admin/jobs/{job_id}")).json()
         if job["status"] in ("done", "failed"):
             return job
         await asyncio.sleep(0.01)
@@ -43,13 +47,13 @@ async def test_job_runs_collection_then_pipeline(api, monkeypatch, tmp_path):
     monkeypatch.setattr(jobs, "collect", fake_collect)
     monkeypatch.setattr(jobs, "run", fake_run)
 
-    res = await api.post("/cases", json={"name": "State v. Example", "court": "Delhi High Court"})
+    res = await api.post("/admin/cases", json={"name": "State v. Example", "court": "Delhi High Court"})
     assert res.status_code == 202
     job = res.json()
     assert job["status"] == "collecting" and job["name"] == "State v. Example"
 
     # Starting the same case again while it runs returns the same job.
-    again = await api.post("/cases", json={"name": "state v example"})
+    again = await api.post("/admin/cases", json={"name": "state v example"})
     assert again.json()["id"] == job["id"]
 
     release.set()
@@ -65,7 +69,7 @@ async def test_failed_collection_is_reported(api, monkeypatch):
         raise AgentError("No judgment found on Indian Kanoon for 'Nothing v. Nobody'.")
 
     monkeypatch.setattr(jobs, "collect", failing_collect)
-    job = (await api.post("/cases", json={"name": "Nothing v. Nobody"})).json()
+    job = (await api.post("/admin/cases", json={"name": "Nothing v. Nobody"})).json()
     finished = await wait_until_finished(api, job["id"])
     assert finished["status"] == "failed"
     assert "No judgment found" in finished["error"]
@@ -83,8 +87,8 @@ async def test_logs_from_other_jobs_do_not_mix(api, monkeypatch, tmp_path):
 
     monkeypatch.setattr(jobs, "collect", fake_collect)
     monkeypatch.setattr(jobs, "run", fake_run)
-    a = (await api.post("/cases", json={"name": "Case Alpha"})).json()
-    b = (await api.post("/cases", json={"name": "Case Beta"})).json()
+    a = (await api.post("/admin/cases", json={"name": "Case Alpha"})).json()
+    b = (await api.post("/admin/cases", json={"name": "Case Beta"})).json()
     a_msgs = [e["message"] for e in (await wait_until_finished(api, a["id"]))["events"]]
     b_msgs = [e["message"] for e in (await wait_until_finished(api, b["id"]))["events"]]
     assert "working on Case Alpha" in a_msgs and "working on Case Beta" not in a_msgs
@@ -92,6 +96,6 @@ async def test_logs_from_other_jobs_do_not_mix(api, monkeypatch, tmp_path):
 
 
 async def test_validation_and_unknown_job(api):
-    assert (await api.post("/cases", json={"name": "ab"})).status_code == 422
-    assert (await api.post("/cases", json={"name": "!!!!"})).status_code == 422
-    assert (await api.get("/jobs/nope")).status_code == 404
+    assert (await api.post("/admin/cases", json={"name": "ab"})).status_code == 422
+    assert (await api.post("/admin/cases", json={"name": "!!!!"})).status_code == 422
+    assert (await api.get("/admin/jobs/nope")).status_code == 404

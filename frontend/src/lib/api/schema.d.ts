@@ -31,11 +31,7 @@ export interface paths {
         /** List Cases */
         get: operations["list_cases_cases_get"];
         put?: never;
-        /**
-         * Start Case
-         * @description Start collecting and analysing a case in the background. Poll /jobs/{id} for progress.
-         */
-        post: operations["start_case_cases_post"];
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -59,17 +55,248 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/jobs/{job_id}": {
+    "/admin/cases": {
         parameters: {
             query?: never;
             header?: never;
             path?: never;
             cookie?: never;
         };
-        /** Get Job */
-        get: operations["get_job_jobs__job_id__get"];
+        /**
+         * List Cases Admin
+         * @description List all cases including draft and reviewed cases. Admin only.
+         */
+        get: operations["list_cases_admin_admin_cases_get"];
+        put?: never;
+        /**
+         * Start Case
+         * @description Start background collection and analysis for a case. Admin only.
+         */
+        post: operations["start_case_admin_cases_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/jobs/{job_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Job
+         * @description Fetch status and log events for a background job. Admin only.
+         */
+        get: operations["get_job_admin_jobs__job_id__get"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/cases/{slug}/preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Preview Case
+         * @description Preview case dashboard regardless of review state. Admin only.
+         */
+        get: operations["preview_case_admin_cases__slug__preview_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/cases/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Patch Case
+         * @description Update publication state, status, or featured flag. Admin only.
+         */
+        patch: operations["patch_case_admin_cases__slug__patch"];
+        trace?: never;
+    };
+    "/home": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Home
+         * @description Home summary: featured cases, poll of the week, and live platform counters.
+         */
+        get: operations["get_home_home_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/polls": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Polls
+         * @description List polls for decided and published cases (including closed polls read-only).
+         */
+        get: operations["list_polls_polls_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/polls/{poll_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Poll
+         * @description Fetch poll details. Poll must belong to a decided and published case.
+         */
+        get: operations["get_poll_polls__poll_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/polls/{poll_id}/vote": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Vote On Poll
+         * @description Vote or update existing vote on an open poll (upsert).
+         */
+        post: operations["vote_on_poll_polls__poll_id__vote_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/polls/{poll_id}/results": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Poll Results
+         * @description Fetch aggregated results and reason tallies for a poll.
+         */
+        get: operations["get_poll_results_polls__poll_id__results_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/polls/{poll_id}/comments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Comments
+         * @description List visible comments for a poll (top-level comments with 1-level nested replies).
+         */
+        get: operations["list_comments_polls__poll_id__comments_get"];
+        put?: never;
+        /**
+         * Post Comment
+         * @description Create a public comment or reply under a poll with request-time moderation.
+         */
+        post: operations["post_comment_polls__poll_id__comments_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/comments/{comment_id}/upvote": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Upvote Comment
+         * @description Toggle upvote for a comment from this voter.
+         */
+        post: operations["upvote_comment_comments__comment_id__upvote_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/comments/{comment_id}/report": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Report Comment
+         * @description Report a comment. 3 unique reports auto-hide the comment from the public.
+         */
+        post: operations["report_comment_comments__comment_id__report_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -80,6 +307,15 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** CasePatchRequest */
+        CasePatchRequest: {
+            /** Review State */
+            review_state?: ("draft" | "reviewed" | "published") | null;
+            /** Featured */
+            featured?: boolean | null;
+            /** Status */
+            status?: ("ongoing" | "decided") | null;
+        };
         /** CaseRequest */
         CaseRequest: {
             /**
@@ -94,6 +330,12 @@ export interface components {
              * @default Criminal Law
              */
             category: string;
+            /**
+             * Status
+             * @default decided
+             * @enum {string}
+             */
+            status: "ongoing" | "decided";
         };
         /** CaseSummary */
         CaseSummary: {
@@ -109,6 +351,21 @@ export interface components {
             summary: string | null;
             /** Is Illustrative */
             is_illustrative: boolean;
+            /**
+             * Status
+             * @default decided
+             */
+            status: string;
+            /**
+             * Review State
+             * @default draft
+             */
+            review_state: string;
+            /**
+             * Featured
+             * @default false
+             */
+            featured: boolean;
             /** Gap Score */
             gap_score: number | null;
         };
@@ -138,6 +395,51 @@ export interface components {
             rationale: string;
             evidence: components["schemas"]["Evidence"];
             judgment_evidence: components["schemas"]["Evidence"] | null;
+        };
+        /** CommentRequest */
+        CommentRequest: {
+            /** Body */
+            body: string;
+            /** Parent Id */
+            parent_id?: string | null;
+            /** Handle */
+            handle?: string | null;
+        };
+        /** CommentView */
+        CommentView: {
+            /** Id */
+            id: string;
+            /** Poll Id */
+            poll_id: string;
+            /** Parent Id */
+            parent_id?: string | null;
+            /** Handle */
+            handle: string;
+            /** Body */
+            body: string;
+            /** Status */
+            status: string;
+            /** Stance */
+            stance?: string | null;
+            /**
+             * Upvotes
+             * @default 0
+             */
+            upvotes: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Replies */
+            replies?: components["schemas"]["CommentView"][];
+        };
+        /** CommentVoteView */
+        CommentVoteView: {
+            /** Upvoted */
+            upvoted: boolean;
+            /** Upvotes */
+            upvotes: number;
         };
         /** Evidence */
         Evidence: {
@@ -191,6 +493,24 @@ export interface components {
              * @enum {string}
              */
             db: "ok" | "unreachable";
+        };
+        /** HomeCounters */
+        HomeCounters: {
+            /** Total Cases */
+            total_cases: number;
+            /** Total Votes */
+            total_votes: number;
+            /** Total Comments */
+            total_comments: number;
+            /** Avg Perception Gap */
+            avg_perception_gap: number | null;
+        };
+        /** HomeSummaryView */
+        HomeSummaryView: {
+            /** Featured Cases */
+            featured_cases: components["schemas"]["CaseSummary"][];
+            poll_of_the_week: components["schemas"]["PollView"] | null;
+            counters: components["schemas"]["HomeCounters"];
         };
         /** JobEventView */
         JobEventView: {
@@ -273,6 +593,62 @@ export interface components {
             /** Claims */
             claims: components["schemas"]["ClaimView"][];
         };
+        /** PollResultsView */
+        PollResultsView: {
+            /** Poll Id */
+            poll_id: string;
+            /** Total Votes */
+            total_votes: number;
+            /** Agree */
+            agree: number;
+            /** Partial */
+            partial: number;
+            /** Disagree */
+            disagree: number;
+            /** Agree Pct */
+            agree_pct: number;
+            /** Partial Pct */
+            partial_pct: number;
+            /** Disagree Pct */
+            disagree_pct: number;
+            /** Top Reasons */
+            top_reasons: components["schemas"]["ReasonTally"][];
+        };
+        /** PollView */
+        PollView: {
+            /** Id */
+            id: string;
+            /** Case Id */
+            case_id: string;
+            /** Case Slug */
+            case_slug?: string | null;
+            /** Case Title */
+            case_title?: string | null;
+            /** Question */
+            question: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "open" | "closed";
+            /**
+             * Opens At
+             * Format: date-time
+             */
+            opens_at: string;
+            /** Closes At */
+            closes_at?: string | null;
+            /**
+             * Featured
+             * @default false
+             */
+            featured: boolean;
+            /**
+             * Total Votes
+             * @default 0
+             */
+            total_votes: number;
+        };
         /** PublicView */
         PublicView: {
             /** Total */
@@ -297,6 +673,28 @@ export interface components {
             sentiment: "support_victim" | "support_accused" | "neutral_uncertain" | "against_media_bias";
             /** Themes */
             themes: string[];
+        };
+        /** ReasonTally */
+        ReasonTally: {
+            /** Reason */
+            reason: string;
+            /** Count */
+            count: number;
+        };
+        /** ReportRequest */
+        ReportRequest: {
+            /** Reason */
+            reason: string;
+        };
+        /** ReportView */
+        ReportView: {
+            /**
+             * Status
+             * @default reported
+             */
+            status: string;
+            /** Comment Id */
+            comment_id: string;
         };
         /** Share */
         Share: {
@@ -355,6 +753,16 @@ export interface components {
             /** Context */
             ctx?: Record<string, never>;
         };
+        /** VoteRequest */
+        VoteRequest: {
+            /**
+             * Choice
+             * @enum {string}
+             */
+            choice: "agree" | "partial" | "disagree";
+            /** Reasons */
+            reasons?: string[];
+        };
     };
     responses: never;
     parameters: never;
@@ -404,39 +812,6 @@ export interface operations {
             };
         };
     };
-    start_case_cases_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["CaseRequest"];
-            };
-        };
-        responses: {
-            /** @description Successful Response */
-            202: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["JobView"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
     get_case_cases__slug__get: {
         parameters: {
             query?: never;
@@ -468,10 +843,78 @@ export interface operations {
             };
         };
     };
-    get_job_jobs__job_id__get: {
+    list_cases_admin_admin_cases_get: {
         parameters: {
             query?: never;
-            header?: never;
+            header?: {
+                "x-admin-key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CaseSummary"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    start_case_admin_cases_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-admin-key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CaseRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["JobView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_job_admin_jobs__job_id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-admin-key"?: string | null;
+            };
             path: {
                 job_id: string;
             };
@@ -486,6 +929,347 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["JobView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    preview_case_admin_cases__slug__preview_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-admin-key"?: string | null;
+            };
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CaseView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    patch_case_admin_cases__slug__patch: {
+        parameters: {
+            query?: never;
+            header?: {
+                "x-admin-key"?: string | null;
+            };
+            path: {
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CasePatchRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CaseSummary"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_home_home_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HomeSummaryView"];
+                };
+            };
+        };
+    };
+    list_polls_polls_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PollView"][];
+                };
+            };
+        };
+    };
+    get_poll_polls__poll_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                poll_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PollView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    vote_on_poll_polls__poll_id__vote_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                poll_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VoteRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PollResultsView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_poll_results_polls__poll_id__results_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                poll_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PollResultsView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_comments_polls__poll_id__comments_get: {
+        parameters: {
+            query?: {
+                sort?: "top" | "new";
+            };
+            header?: never;
+            path: {
+                poll_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CommentView"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    post_comment_polls__poll_id__comments_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                poll_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CommentRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CommentView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    upvote_comment_comments__comment_id__upvote_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                comment_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CommentVoteView"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    report_comment_comments__comment_id__report_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                comment_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ReportRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ReportView"];
                 };
             };
             /** @description Validation Error */

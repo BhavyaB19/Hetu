@@ -1,0 +1,61 @@
+<!-- PLACEHOLDER FOR MANUAL POLISH: Hetu Scales Hero Vector Art -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 450" width="100%" height="100%" fill="none" stroke="currentColor">
+  <defs>
+    <linearGradient id="scales-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8dcc8" />
+      <stop offset="50%" stop-color="#c08a3e" />
+      <stop offset="100%" stop-color="#8a5a1f" />
+    </linearGradient>
+    <radialGradient id="pan-shadow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1f1a14" />
+      <stop offset="100%" stop-color="#13110d" />
+    </radialGradient>
+  </defs>
+
+  <!-- #base : Fulcrum pillar, decorative arch, and heavy base stand -->
+  <g id="base" stroke="#c08a3e">
+    <!-- Pedestal Base -->
+    <rect x="175" y="400" width="150" height="24" rx="4" fill="url(#pan-shadow)" stroke-width="2" />
+    <path d="M195 400 L215 340 L285 340 L305 400 Z" fill="url(#pan-shadow)" stroke-width="1.5" />
+    <!-- Center Column -->
+    <line x1="250" y1="340" x2="250" y2="110" stroke="url(#scales-gold)" stroke-width="6" stroke-linecap="round" />
+    <!-- Capital / Fulcrum Ring -->
+    <circle cx="250" cy="110" r="14" fill="#13110d" stroke="#c08a3e" stroke-width="3" />
+    <circle cx="250" cy="110" r="4" fill="#c08a3e" />
+    <!-- Finial tip -->
+    <path d="M250 96 L250 70 M245 75 L255 75" stroke="#c08a3e" stroke-width="2" stroke-linecap="round" />
+    <polygon points="250,60 244,72 256,72" fill="#c08a3e" />
+  </g>
+
+  <!-- #beam : Main balance arm centered on pivot (250, 110) -->
+  <g id="beam" transform-origin="250px 110px">
+    <!-- Horizontal Crossbeam -->
+    <path d="M70 110 Q250 100 430 110 Q250 120 70 110 Z" fill="url(#scales-gold)" stroke="#c08a3e" stroke-width="1" />
+    <!-- Center Fulcrum Pin -->
+    <circle cx="250" cy="110" r="6" fill="#c08a3e" stroke="#0b0a08" stroke-width="2" />
+    <!-- Left Suspension Eyelet -->
+    <circle cx="85" cy="110" r="4" fill="#13110d" stroke="#c08a3e" stroke-width="2" />
+    <!-- Right Suspension Eyelet -->
+    <circle cx="415" cy="110" r="4" fill="#13110d" stroke="#c08a3e" stroke-width="2" />
+
+    <!-- #pan-left : Chains and Dish for the Left Pan (origin at suspension point 85, 110) -->
+    <g id="pan-left" transform-origin="85px 110px">
+      <!-- Chains -->
+      <line x1="85" y1="114" x2="35" y2="250" stroke="#c08a3e" stroke-width="1.5" stroke-dasharray="3 3" />
+      <line x1="85" y1="114" x2="85" y2="250" stroke="#c08a3e" stroke-width="1" stroke-dasharray="3 3" opacity="0.6" />
+      <line x1="85" y1="114" x2="135" y2="250" stroke="#c08a3e" stroke-width="1.5" stroke-dasharray="3 3" />
+      <!-- Left Pan Dish -->
+      <path d="M25 250 Q85 285 145 250 Q85 255 25 250 Z" fill="url(#pan-shadow)" stroke="#c08a3e" stroke-width="2" />
+    </g>
+
+    <!-- #pan-right : Chains and Dish for the Right Pan (origin at suspension point 415, 110) -->
+    <g id="pan-right" transform-origin="415px 110px">
+      <!-- Chains -->
+      <line x1="415" y1="114" x2="365" y2="250" stroke="#c08a3e" stroke-width="1.5" stroke-dasharray="3 3" />
+      <line x1="415" y1="114" x2="415" y2="250" stroke="#c08a3e" stroke-width="1" stroke-dasharray="3 3" opacity="0.6" />
+      <line x1="415" y1="114" x2="465" y2="250" stroke="#c08a3e" stroke-width="1.5" stroke-dasharray="3 3" />
+      <!-- Right Pan Dish -->
+      <path d="M355 250 Q415 285 475 250 Q415 255 355 250 Z" fill="url(#pan-shadow)" stroke="#c08a3e" stroke-width="2" />
+    </g>
+  </g>
+</svg>

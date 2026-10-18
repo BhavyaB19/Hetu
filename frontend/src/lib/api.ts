@@ -13,6 +13,15 @@ export type PublicView = Schemas["PublicView"];
 export type TimelineEventView = Schemas["TimelineEventView"];
 export type SourceView = Schemas["SourceView"];
 export type JobView = Schemas["JobView"];
+export type PollView = Schemas["PollView"];
+export type PollResultsView = Schemas["PollResultsView"];
+export type VoteRequest = Schemas["VoteRequest"];
+export type ReasonTally = Schemas["ReasonTally"];
+export type CommentView = Schemas["CommentView"];
+export type CommentRequest = Schemas["CommentRequest"];
+export type CommentVoteView = Schemas["CommentVoteView"];
+export type ReportRequest = Schemas["ReportRequest"];
+export type ReportView = Schemas["ReportView"];
 
 /** The API is only called from the server, so this is never exposed to the browser. */
 // 127.0.0.1 rather than localhost: Node may resolve localhost to IPv6, where uvicorn isn't listening.

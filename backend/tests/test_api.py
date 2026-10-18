@@ -1,19 +1,17 @@
 import pytest
 from httpx import ASGITransport, AsyncClient
 
-from app.db.models import Base
 from app.db.repository import save_case
-from app.db.session import SessionLocal, engine
+from app.db.session import SessionLocal
 from app.main import app
 from app.services.pipeline import anonymize
 from app.services.scoring import perception_gap
 
+pytestmark = pytest.mark.usefixtures("clean_database")
+
 
 @pytest.fixture
 async def client(demo):
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
-        await conn.run_sync(Base.metadata.create_all)
     bundle = anonymize(demo, [])
     async with SessionLocal() as session:
         await save_case(session, bundle, perception_gap(bundle))

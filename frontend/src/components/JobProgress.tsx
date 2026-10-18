@@ -30,7 +30,7 @@ export function JobProgress({ initial }: { initial: JobView }) {
     if (job.status === "done" || job.status === "failed") return;
     const timer = setInterval(async () => {
       try {
-        const res = await fetch(`/api/jobs/${job.id}`, { cache: "no-store" });
+        const res = await fetch(`/api/admin/jobs/${job.id}`, { cache: "no-store" });
         if (res.ok) setJob(await res.json());
       } catch {
         // Keep polling; a dropped request is not a failed job.
@@ -42,7 +42,7 @@ export function JobProgress({ initial }: { initial: JobView }) {
 
   useEffect(() => {
     if (job.status === "done" && job.slug) {
-      const t = setTimeout(() => router.push(`/cases/${job.slug}`), 1500);
+      const t = setTimeout(() => router.push(`/admin`), 1500);
       return () => clearTimeout(t);
     }
   }, [job.status, job.slug, router]);
@@ -106,7 +106,7 @@ export function JobProgress({ initial }: { initial: JobView }) {
         </div>
       )}
       {job.status === "done" && job.slug && (
-        <Link href={`/cases/${job.slug}`} className="w-fit rounded-md bg-gold px-5 py-2 text-sm font-semibold text-ink hover:bg-bronze">
+        <Link href={`/verdicts/${job.slug}`} className="w-fit rounded-md bg-gold px-5 py-2 text-sm font-semibold text-ink hover:bg-bronze">
           Open the dashboard →
         </Link>
       )}

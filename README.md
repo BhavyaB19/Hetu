@@ -113,7 +113,13 @@ docker compose -f docker-compose.yml up --build
 
 ### Option 2: Run locally
 
-Needs Python 3.11+ and Node 20+. The backend uses a local SQLite file, so no database setup is needed.
+Needs Python 3.11+, Node 20+, and running Postgres and Redis instances. Start Postgres and Redis via Docker:
+
+```bash
+docker compose up -d postgres redis
+```
+
+> **Database Note**: The Docker setup automatically provisions the `hetu` development database and `hetu_test` test database on a fresh volume. On an existing volume, create `hetu_test` once with `docker compose exec postgres psql -U hetu -d postgres -c "CREATE DATABASE hetu_test OWNER hetu;"` (or let the test runner create it automatically if missing).
 
 Backend, from `backend/`:
 
