@@ -8,11 +8,13 @@ import { api } from "@/lib/api";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const { data: cases, error } = await api
-    .GET("/cases")
-    .catch(() => ({ data: undefined, error: true }));
+  const [{ data: cases, error }, { data: homeSummary }] = await Promise.all([
+    api.GET("/cases").catch(() => ({ data: undefined, error: true })),
+    api.GET("/home").catch(() => ({ data: undefined })),
+  ]);
 
   const featuredCase = cases && cases.length > 0 ? cases[0] : undefined;
+  const pollOfTheWeek = homeSummary?.poll_of_the_week || undefined;
 
   return (
     <div className="flex flex-col gap-14 pb-8">
@@ -33,7 +35,7 @@ export default async function Home() {
       <FeaturedCases cases={cases} error={error} />
 
       {/* 5. Poll of the Week */}
-      <PollOfTheWeek featuredCase={featuredCase} />
+      <PollOfTheWeek featuredCase={featuredCase} poll={pollOfTheWeek} />
     </div>
   );
 }

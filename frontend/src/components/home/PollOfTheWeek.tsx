@@ -1,11 +1,12 @@
 import Link from "next/link";
-import type { CaseSummary } from "@/lib/api";
+import type { CaseSummary, PollView } from "@/lib/api";
 
 interface PollOfTheWeekProps {
   featuredCase?: CaseSummary;
+  poll?: PollView;
 }
 
-export function PollOfTheWeek({ featuredCase }: PollOfTheWeekProps) {
+export function PollOfTheWeek({ featuredCase, poll }: PollOfTheWeekProps) {
   if (!featuredCase) {
     return (
       <section className="card p-6 sm:p-8 bg-surface border-gold-line flex flex-col gap-5">
@@ -54,9 +55,11 @@ export function PollOfTheWeek({ featuredCase }: PollOfTheWeekProps) {
 
       <div className="flex flex-col gap-3">
         <p className="text-xs text-ivory-muted">Case Under Deliberation:</p>
-        <h3 className="font-serif text-2xl text-ivory">{featuredCase.title}</h3>
+        <h3 className="font-serif text-2xl text-ivory">
+          {poll?.case_title || featuredCase.title}
+        </h3>
         <p className="text-sm text-ivory-muted leading-relaxed">
-          &ldquo;Do you agree with the court&apos;s evidentiary findings and sentencing reasoning in this judgment?&rdquo;
+          {poll?.question || "Do you agree with the court's evidentiary findings and sentencing reasoning in this judgment?"}
         </p>
       </div>
 
@@ -80,7 +83,7 @@ export function PollOfTheWeek({ featuredCase }: PollOfTheWeekProps) {
           Non-representative engagement. Cryptographically hashed voter tokens.
         </span>
         <Link
-          href={`/verdicts/${featuredCase.slug}#public`}
+          href={poll ? `/jan-mat/${poll.id}` : `/verdicts/${featuredCase.slug}#public`}
           className="rounded-md bg-gold px-4 py-2 font-semibold text-ink hover:bg-bronze transition-colors"
         >
           Cast Your Vote in Jan Mat →
