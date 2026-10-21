@@ -1,0 +1,342 @@
+{
+  "content_hash": "8c057b819fb431c31edbaca704d29838f22e114da28f4fed85781d4b89b8725a",
+  "judgment": {
+    "document": "judgment",
+    "facts": "Sanjeev Singhal and Shefali Varma entered into an agreement dated 17 January 2022 to sell land in Gadaipur, Delhi, for Rs. 22 crore, with completion dependent on family settlements affecting Varma’s title. Although some land was conveyed to Singhal’s nominee in 2022, the settlement concerning the Neeta Anand parcel did not occur by 31 March 2022; Varma perfected her title to that parcel through an exchange deed in May 2024. The court upheld the arbitrator’s findings that the contractual deadline applied to the remaining obligations and that Singhal had not proved continuous readiness and willingness to perform. Varma admitted retaining Rs. 97 lakh refundable to Singhal.",
+    "motive": "No criminal motive was examined or established. The civil dispute concerned the purchaser’s attempt to enforce a property sale agreement and the seller’s contention that her remaining contractual obligations had lapsed.",
+    "trigger": "After learning that Varma had acquired title to the Neeta Anand parcel in May 2024, Singhal demanded completion of the remaining sale. Her failure to respond to his demand letters led him to invoke arbitration.",
+    "court_reasoning": "The court upheld the arbitrator’s reading of Clauses 6 and 7 together, applying the 31 March 2022 deadline to the outstanding conveyance obligations; subsequent dealings concerning the co-ownership parcel did not establish revival of obligations concerning the Neeta Anand parcel. It also upheld the finding that Singhal had not proved continuous readiness and willingness, including transaction-specific financial capacity, under Section 16(c) of the Specific Relief Act. The arbitrator had addressed the material issues and correctly rejected a freestanding hardship-based discretion under the pre-2018 specific-performance regime. Because the award reflected a plausible contractual interpretation and evidentiary assessment, Section 34 did not permit reappreciation of evidence or substitution of the court’s own view.",
+    "outcome": "The court dismissed O.M.P. 3/2026, the Section 34 challenge, with pending applications, and disposed of O.M.P.(I) 10/2026 seeking interim restraints as infructuous. The arbitral award remained undisturbed: specific performance and consequential declaratory and injunctive relief were refused, while Varma was directed to refund Rs. 97 lakh with 15% annual interest from 17 August 2022 to the award date, totaling Rs. 1,53,98,750. The award also provided 15% annual future interest on the outstanding balance if unpaid within 60 days and Rs. 25 lakh in costs to Singhal, with other fees and expenses shared equally. There was no criminal conviction or sentence.",
+    "outcome_direction": "other",
+    "legal_provisions": [
+      "Section 9, Arbitration and Conciliation Act, 1996",
+      "Section 11, Arbitration and Conciliation Act, 1996",
+      "Section 31A, Arbitration and Conciliation Act, 1996",
+      "Section 34(2), Arbitration and Conciliation Act, 1996",
+      "Section 34(2A), Arbitration and Conciliation Act, 1996",
+      "Section 25, Indian Contract Act, 1872",
+      "Section 32, Indian Contract Act, 1872",
+      "Section 35, Indian Contract Act, 1872",
+      "Section 13(1)(a), Specific Relief Act, 1963",
+      "Section 16(b), Specific Relief Act, 1963",
+      "Section 16(c), Specific Relief Act, 1963",
+      "Former Section 20, Specific Relief Act, 1963",
+      "Specific Relief (Amendment) Act, 2018",
+      "Section 65, Bharatiya Sakshya Adhiniyam, 2023",
+      "Section 17(1)(b), Registration Act, 1908",
+      "Section 49, Registration Act, 1908"
+    ],
+    "timeline": [
+      {
+        "date": "2022-01-17",
+        "label": "Sale agreement executed",
+        "description": "The parties executed an agreement to sell the subject property for Rs. 22 crore; Singhal paid an initial Rs. 50 lakh advance.",
+        "phase": "other",
+        "court_weight": 0.95,
+        "evidence": {
+          "document": "judgment",
+          "quote": "An Agreement to Sell dated 17.01.2022"
+        }
+      },
+      {
+        "date": "2022-03-31",
+        "label": "Contractual deadline expired",
+        "description": "The Neeta Anand family settlement had not occurred by the deadline. The court upheld the finding that Varma was discharged from further obligations under the agreement.",
+        "phase": "other",
+        "court_weight": 1.0,
+        "evidence": {
+          "document": "judgment",
+          "quote": "was discharged from any further obligations under the ATS after 31.03.2022."
+        }
+      },
+      {
+        "date": "2024-05-03",
+        "label": "Exchange perfected title",
+        "description": "Varma and Neeta Anand executed an exchange deed perfecting Varma’s title to the Neeta Anand parcel; Singhal subsequently demanded completion.",
+        "phase": "other",
+        "court_weight": 0.85,
+        "evidence": {
+          "document": "judgment",
+          "quote": "the Deed of Exchange dated 03.05.2024 was executed"
+        }
+      },
+      {
+        "date": "2024-10-26",
+        "label": "Arbitration clause invoked",
+        "description": "After receiving no replies to his August demand letters, Singhal invoked the agreement’s arbitration clause.",
+        "phase": "other",
+        "court_weight": 0.55,
+        "evidence": {
+          "document": "judgment",
+          "quote": "he invoked the arbitration clause being Clauses No. 18 and 19 contained in the ATS"
+        }
+      },
+      {
+        "date": "2024-12-10",
+        "label": "Seller terminated agreement",
+        "description": "Varma issued a termination letter shortly after Singhal approached the court for appointment of an arbitrator.",
+        "phase": "other",
+        "court_weight": 0.65,
+        "evidence": {
+          "document": "judgment",
+          "quote": "the Respondent terminated the ATS by way of a Letter dated 10.12.2024."
+        }
+      },
+      {
+        "date": "2025-01-10",
+        "label": "Arbitrator appointed",
+        "description": "The High Court appointed an arbitrator to adjudicate the parties’ disputes.",
+        "phase": "trial",
+        "court_weight": 0.4,
+        "evidence": {
+          "document": "judgment",
+          "quote": "this Court appointed an arbitrator to adjudicate upon the disputes between the parties."
+        }
+      },
+      {
+        "date": "2026-07-17",
+        "label": "Final arbitral award",
+        "description": "The arbitrator refused specific performance and consequential relief but awarded Singhal a Rs. 97 lakh refund, interest, and Rs. 25 lakh costs.",
+        "phase": "verdict",
+        "court_weight": 1.0,
+        "evidence": {
+          "document": "judgment",
+          "quote": "The Respondent shall refund to the Claimant the sum of Rs.97,00,000"
+        }
+      },
+      {
+        "date": "2026-10-06",
+        "label": "Award challenge dismissed",
+        "description": "The High Court dismissed the Section 34 challenge and disposed of the interim-restraint petition as infructuous.",
+        "phase": "verdict",
+        "court_weight": 1.0,
+        "evidence": {
+          "document": "judgment",
+          "quote": "the Petitioner has failed to establish any ground under Section 34(2) or Section 34(2A)"
+        }
+      }
+    ],
+    "evidence": {
+      "facts": {
+        "document": "judgment",
+        "quote": "Indeed, there is no indication of any other consideration amount for the ATS, apart from Rs. 22 crores."
+      },
+      "motive": {
+        "document": "judgment",
+        "quote": "whether the ATS was contingent or not"
+      },
+      "trigger": {
+        "document": "judgment",
+        "quote": "Upon gaining knowledge of this, the Petitioner immediately issued two Demand Letters"
+      },
+      "court_reasoning": {
+        "document": "judgment",
+        "quote": "The Impugned Award reflects a plausible and reasoned interpretation of the contract and an evaluation of evidence within the jurisdiction of the Arbitral Tribunal."
+      },
+      "outcome": {
+        "document": "judgment",
+        "quote": "Accordingly, the Petition under Section 34 of the Arbitration Act being O.M.P. 3/2026, stands dismissed"
+      }
+    }
+  },
+  "people": [
+    {
+      "name": "Sanjeev Singhal",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Shefali Varma",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Neeta Anand",
+      "role": "relative",
+      "aliases": []
+    },
+    {
+      "name": "Meenakshi Varma",
+      "role": "relative",
+      "aliases": []
+    },
+    {
+      "name": "Ashok Varma",
+      "role": "relative",
+      "aliases": []
+    },
+    {
+      "name": "Shibani Varma Kapoor",
+      "role": "relative",
+      "aliases": []
+    },
+    {
+      "name": "Yadur Kapoor",
+      "role": "relative",
+      "aliases": []
+    },
+    {
+      "name": "Pradeep Singh",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "K.S. Manjunath",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Moorasavirappa",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Vimla",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Chand Rani",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Kamal Rani",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Radha Sundar Dutta",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Mohd. Jahadur Rahim",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "R. Kandasamy",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "T.R.K. Sarawathy",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Saradamani Kandappan",
+      "role": "other",
+      "aliases": [
+        "SaradamaniKandappan"
+      ]
+    },
+    {
+      "name": "S. Rajalakshmi",
+      "role": "other",
+      "aliases": [
+        "S.Rajalakshmi"
+      ]
+    },
+    {
+      "name": "Rattan Arya",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "K.S. Vidyanadam",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Vairavan",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Annamalai",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Vasanthi",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Kamal Kumar",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Premlata Joshi",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Shatrughan Kumar",
+      "role": "other",
+      "aliases": [
+        "Khesari Lal Yadav"
+      ]
+    },
+    {
+      "name": "Katta Sujatha Reddy",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Acharya Swami Ganesh Dassji",
+      "role": "other",
+      "aliases": [
+        "His Holiness Acharya Swami Ganesh Dassji"
+      ]
+    },
+    {
+      "name": "Sita Ram Thapar",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Shenbagam",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "KK Rathinavel",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Ritu Saxena",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "J.S. Grover",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "N.P. Thirugnanam",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "R. Jagan Mohan Rao",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "J.J. Lal",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "M.R. Murali",
+      "role": "other",
+      "aliases": []
+    }
+  ]
+}

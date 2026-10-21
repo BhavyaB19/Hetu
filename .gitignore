@@ -31,5 +31,4 @@ Thumbs.db
 # local database
 *.db
 
-# raw TinyFish collections (contain names and full article text; never commit)
-backend/fixtures/collected/
+
