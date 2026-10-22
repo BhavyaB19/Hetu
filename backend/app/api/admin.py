@@ -4,26 +4,34 @@ Requires X-Admin-Key header validated via constant-time comparison.
 Keys and unvetted content are never logged.
 """
 
+import logging
 import secrets
+import uuid
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Header, HTTPException, Request, status
+from fastapi import APIRouter, BackgroundTasks, Depends, Header, HTTPException, Request, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.agents.base import CaseQuery
 from app.core.config import Settings, get_settings, secret
 from app.core.limiter import limiter
-from app.db import repository
-from app.db.session import get_session
+from app.db import docket_repository, repository
+from app.db.session import SessionLocal, get_session
+from app.docket.sci import SciSource
 from app.schemas.views import (
     CasePatchRequest,
     CaseRequest,
     CaseSummary,
     CaseView,
+    DocketRefreshView,
     JobEventView,
     JobView,
+    TrackedMatterRequest,
+    TrackedMatterView,
 )
-from app.services import jobs
+from app.services import docket, jobs
+
+log = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 Session = Annotated[AsyncSession, Depends(get_session)]
@@ -116,3 +124,51 @@ async def patch_case(
     if case is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Case not found")
     return repository._summary(case)
+
+
+async def _refresh_docket() -> None:
+    source = SciSource(docket.today_ist())
+    try:
+        async with SessionLocal() as session:
+            await docket.refresh(session, source)
+    except Exception as err:  # a background task has nowhere else to report
+        log.warning("Docket refresh failed: %s", type(err).__name__)
+    finally:
+        await source.close()
+
+
+@router.post("/docket/refresh", response_model=DocketRefreshView, status_code=status.HTTP_202_ACCEPTED)
+@limiter.limit("2/minute")
+async def refresh_docket(request: Request, background: BackgroundTasks, _: AdminAuth) -> DocketRefreshView:
+    """Fetch the Supreme Court's current cause lists in the background. Admin only."""
+    background.add_task(_refresh_docket)
+    return DocketRefreshView(
+        started=True,
+        message="Reading the Supreme Court's cause lists. This takes a few minutes.",
+    )
+
+
+@router.get("/docket/tracked", response_model=list[TrackedMatterView])
+async def list_tracked(session: Session, _: AdminAuth) -> list[TrackedMatterView]:
+    return await docket_repository.list_tracked(session, docket.today_ist())
+
+
+@router.post("/docket/tracked", response_model=TrackedMatterView, status_code=status.HTTP_201_CREATED)
+@limiter.limit("30/minute")
+async def track_matter(
+    request: Request, body: TrackedMatterRequest, session: Session, _: AdminAuth
+) -> TrackedMatterView:
+    """Follow a Supreme Court matter by its case number. Admin only."""
+    if len(docket_repository.case_key(body.case_number)) < 4:
+        raise HTTPException(status_code=422, detail='Give a case number such as "SLP(Crl) No. 7857/2022".')
+    tracked = await docket_repository.add_tracked(
+        session, body.case_number, body.title, body.note, body.case_slug
+    )
+    views = await docket_repository.list_tracked(session, docket.today_ist())
+    return next(v for v in views if v.id == str(tracked.id))
+
+
+@router.delete("/docket/tracked/{tracked_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def untrack_matter(tracked_id: uuid.UUID, session: Session, _: AdminAuth) -> None:
+    if not await docket_repository.remove_tracked(session, tracked_id):
+        raise HTTPException(status_code=404, detail="Tracked matter not found")

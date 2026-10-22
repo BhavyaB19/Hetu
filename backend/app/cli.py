@@ -31,6 +31,19 @@ async def collect_and_load(query: CaseQuery, refresh: bool) -> None:
         ) from err
 
 
+async def refresh_docket() -> None:
+    from app.db.session import SessionLocal
+    from app.docket.sci import SciSource
+    from app.services.docket import refresh, today_ist
+
+    source = SciSource(today_ist())
+    try:
+        async with SessionLocal() as session:
+            await refresh(session, source)
+    finally:
+        await source.close()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Collect and load Hetu cases.")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -47,11 +60,15 @@ def main() -> None:
     load.add_argument("files", nargs="+", type=Path)
     load.add_argument("--extract", action="store_true", help="Re-extract even if already extracted")
 
+    commands.add_parser("docket-refresh", help="Read the Supreme Court's current cause lists")
+
     args = parser.parse_args()
     logging.basicConfig(level=logging.INFO, format="%(message)s")
     logging.getLogger("httpx").setLevel(logging.WARNING)
     try:
-        if args.command == "collect":
+        if args.command == "docket-refresh":
+            asyncio.run(refresh_docket())
+        elif args.command == "collect":
             asyncio.run(collect_and_load(CaseQuery(args.name, args.court, args.category), args.refresh))
         else:
             for path in args.files:

@@ -22,6 +22,11 @@ export type CommentRequest = Schemas["CommentRequest"];
 export type CommentVoteView = Schemas["CommentVoteView"];
 export type ReportRequest = Schemas["ReportRequest"];
 export type ReportView = Schemas["ReportView"];
+export type ListingView = Schemas["ListingView"];
+export type DocketView = Schemas["DocketView"];
+export type DocketDayView = Schemas["DocketDayView"];
+export type DocketHighlightsView = Schemas["DocketHighlightsView"];
+export type TrackedMatterView = Schemas["TrackedMatterView"];
 
 /** The API is only called from the server, so this is never exposed to the browser. */
 // 127.0.0.1 rather than localhost: Node may resolve localhost to IPv6, where uvicorn isn't listening.
