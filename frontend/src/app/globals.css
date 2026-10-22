@@ -1,36 +1,67 @@
 @import "tailwindcss";
 
-/* Hetu: near-black ground, warm ivory text, burnt-gold accents. Dark only. */
+/* Hetu: newsprint and court. Paper ground, printer's ink, oxblood seal red, sandstone lattice.
+   Token names predate this palette, so read them by role, not by name:
+   --color-ink is the page ground, --color-ivory the main text, --color-gold the accent.
+   `.reverse` flips a region to an ink block, as a newspaper sets a boxed panel. */
 @theme {
-  --color-ink: #0b0a08;
-  --color-surface: #13110d;
-  --color-ivory: #e8dcc8;
-  --color-ivory-muted: #a89a85;
-  --color-ivory-faint: #6f6556;
-  --color-gold: #c08a3e;
-  --color-bronze: #b87333;
-  --color-gold-line: rgb(192 138 62 / 0.22);
-  --color-gold-soft: rgb(192 138 62 / 0.08);
-  --color-track: #2a251d;
-  --color-danger: #d4705a;
-  --color-ok: #9bb57f;
+  --color-ink: #e9e4d8;
+  --color-surface: #dfd8ca;
+  --color-ivory: #1b1815;
+  --color-ivory-muted: #4f483f;
+  --color-ivory-faint: #6e6559;
+  --color-gold: #8a1f1c;
+  --color-bronze: #6e1714;
+  --color-gold-line: rgb(27 24 21 / 0.2);
+  --color-gold-soft: rgb(138 31 28 / 0.07);
+  --color-track: #d2c9b8;
+  --color-danger: #a3271f;
+  --color-ok: #3f5f33;
 
-  /* Chart hues, validated for colour-vision deficiency on the surface colour. */
-  --color-viz-1: #c98500;
-  --color-viz-2: #d55181;
-  --color-viz-3: #3987e5;
-  --color-viz-4: #199e70;
+  /* Paper and press for places that must stay fixed under `.reverse`. */
+  --color-paper: #e9e4d8;
+  --color-press: #1b1815;
+
+  /* The carved screen: stone face, the shadow behind its holes, and its lit edge. */
+  --color-stone: #d3c9b6;
+  --color-stone-deep: #bfb39d;
+  --color-stone-edge: #f6f2ea;
+
+  /* Chart inks, kept apart for colour-vision deficiency on paper; always paired with labels. */
+  --color-viz-1: #8a1f1c;
+  --color-viz-2: #b0761c;
+  --color-viz-3: #2f4a6b;
+  --color-viz-4: #6b6157;
 
   --font-serif: var(--font-playfair), Georgia, serif;
   --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-deva: var(--font-noto-deva), "Noto Serif Devanagari", serif;
+}
+
+/* An ink block: same tokens, reversed values. Text inside stays readable without new classes. */
+.reverse {
+  --color-ink: #1b1815;
+  --color-surface: #24201c;
+  --color-ivory: #e9e4d8;
+  --color-ivory-muted: #b9b0a1;
+  --color-ivory-faint: #8d8476;
+  --color-gold: #d0574c;
+  --color-bronze: #e07468;
+  --color-gold-line: rgb(233 228 216 / 0.2);
+  --color-gold-soft: rgb(208 87 76 / 0.12);
+  --color-track: #3a342d;
+  background: var(--color-ink);
+  color: var(--color-ivory);
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
   scroll-behavior: smooth;
 }
 
 body {
+  /* Full-bleed sections use 100vw; clip so the scrollbar width never adds a sideways scroll. */
+  overflow-x: clip;
   background: var(--color-ink);
   color: var(--color-ivory);
   font-family: var(--font-sans);
@@ -38,7 +69,7 @@ body {
 }
 
 ::selection {
-  background: rgb(192 138 62 / 0.35);
+  background: rgb(138 31 28 / 0.2);
 }
 
 dialog::backdrop {
@@ -46,6 +77,58 @@ dialog::backdrop {
 }
 
 @layer components {
+  /* Breaks out of the page container to the full window width. */
+  .bleed {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+  }
+
+  /* Masthead rule under the dateline. */
+  .press-rule {
+    border-bottom: 3px double var(--color-ivory);
+  }
+
+  /* Primary action: a seal-red slab with cut corners. */
+  .btn-seal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0 1.4rem;
+    background: var(--color-gold);
+    color: var(--color-paper);
+    font-weight: 600;
+    font-size: 0.875rem;
+    clip-path: polygon(0.6rem 0, 100% 0, calc(100% - 0.6rem) 100%, 0 100%);
+    transition: background-color 150ms;
+  }
+  .btn-seal:hover {
+    background: var(--color-bronze);
+  }
+  .btn-plain {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0 1.4rem;
+    border: 1px solid var(--color-gold-line);
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: border-color 150ms;
+  }
+  .btn-plain:hover {
+    border-color: var(--color-ivory);
+  }
+
+  /* Small diamond used as a separator and list mark. */
+  .lozenge {
+    display: inline-block;
+    width: 0.4rem;
+    height: 0.4rem;
+    background: var(--color-gold);
+    transform: rotate(45deg);
+    flex: none;
+  }
+
   .gold-rule {
     height: 1px;
     border: 0;

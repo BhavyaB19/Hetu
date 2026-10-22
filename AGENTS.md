@@ -54,14 +54,14 @@ Hetu puts three stories about an Indian criminal case side by side: the court's 
   - Always honour `prefers-reduced-motion` using `createScope` `mediaQueries: { reduceMotion: '(prefers-reduced-motion: reduce)' }` (render the final state, no looping motion). Idle sway runs only when reduced motion is off.
   - Heavy animation is lazy-loaded (`next/dynamic`, `ssr: false`); pause when the tab is hidden (`document.hidden`).
   - Animate `transform` and `opacity` only; never animate layout properties in loops.
-  - Lady Justice reveal: runs once per session (`sessionStorage`), skippable, max 3.5 s, never hides required content.
+  - Lady Justice reveal: driven by scroll (frames from video, never a timer), reversible, with an always-visible skip link; reduced motion shows the end state; never hides required content.
 - Accessibility: WCAG AA contrast, visible focus states, keyboard operable controls, `aria-label`s on icon buttons, charts with accessible data tables, `aria-live` for vote results, semantic landmarks. Run axe checks in Playwright.
 - Responsive: mobile first; test at 375 px, 768 px and 1280 px widths.
 - Performance: no layout shift from images or fonts (set sizes, use `next/font`), keep the Home JS payload small, defer 3D.
 - Copy: plain English, short sentences. Always show "Not a representative sample" near poll results and "Illustrative demo" on demo data.
 
 ## Design system summary
-Dark editorial theme: near-black background, ivory text, burnt-gold accent, muted greys for secondary text. Four chart colours (`--color-viz-1..4`) chosen for colour-blind separation; never encode meaning by colour alone (add labels or patterns). Cards: subtle borders, generous spacing, serif headings. Buttons: gold primary, ghost secondary. Stage and verdict badges use text plus icon, not colour only.
+Newsprint and court: greyish newsprint ground, printer's-ink text, oxblood seal-red accent used sparingly, muted ink greys for secondary text. Ink blocks (`.reverse`) for the Jan Mat band and the footer. The jaali (carved sandstone lattice, `components/jaali/`) is the structural motif: arches frame content, the Home hero opens a carved screen. Token names predate the palette, so read them by role: `--color-ink` is the ground, `--color-ivory` the text, `--color-gold` the accent. Four chart inks (`--color-viz-1..4`) chosen for colour-blind separation; never encode meaning by colour alone (add labels or patterns). Serif headings, hairline rules, generous spacing. Buttons: seal-red primary (`.btn-seal`), bordered secondary (`.btn-plain`). Stage and verdict badges use text plus icon, not colour only.
 
 ## Definition of done
 A task is done only when: code compiles; tests and lint pass; new behaviour has tests; migrations apply and roll back; types are regenerated; accessibility and reduced-motion are handled; no private names or secrets in logs or commits; `README.md` or `ARCHITECTURE.md` is updated if behaviour or setup changed; and the change set is summarized (what changed, why, how to verify, known gaps).

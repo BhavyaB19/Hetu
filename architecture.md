@@ -172,11 +172,13 @@ Design tokens live in `globals.css` as CSS variables (`--color-bg`, `--color-ink
 
 **Scales hero (P0): layered SVG + CSS 3D.** Build `ScalesHero` from an SVG with groups `#base`, `#beam`, `#pan-left`, `#pan-right`. Beam sways with a gentle sine oscillation via Anime.js (`animate(beam, { rotate: [-3, 3], loop: true, alternate: true, ease: 'inOutSine', duration: 3000 })`). Y-axis spin uses CSS `perspective` and `rotateY` on a wrapper; front and back art layers maintain `backface-visibility: hidden`.
 
-**Lady Justice reveal (P0): Anime.js timeline.**
-- Assets: `public/art/lady-front.svg` (with `<g id="blindfold">`), `public/art/lady-back.svg`.
-- Anime.js timeline (`createTimeline`): `rotateY: [0, 360]` (2000 ms, `inOutQuad`); at 1600 ms animate `#blindfold` (`translateX: 40, rotate: 25, opacity: 0, duration: 600`) and fade in eyes; then stagger page content with `stagger(100)`.
-- Persist `sessionStorage.hetuReveal = "1"`; skip button; `prefers-reduced-motion` renders the end state immediately.
-- Encapsulated in `createScope({ root })` with cleanup via `scope.revert()`.
+**Lady Justice footage (P0): video frames scrubbed by scroll.**
+- Source: one realistic video (rendered from a licensed 3D model or generated), plus a short blink loop whose last frame matches the first frame of the reveal.
+- Home: the blink loop plays in the hero (`LoopVideo`), paused under reduced motion and on a hidden tab. The SVG scales stay as the fallback.
+- Jan Mat: `LadyJusticeReveal` uses `ScrollSequence`: a sticky stage over a 300vh runway; Anime.js `onScroll` progress picks the frame drawn on a `<canvas>`. Scrolling down turns her, moves in to her face and the blindfold falls away; scrolling up reverses it. The idle blink loop shows before scrolling starts. Caption: "Justice is blind. The public is not." A "Skip to the ballots" link is always visible. Reduced motion shows the last frame as a still.
+- Frames, not `video.currentTime`: compressed video seeks backwards poorly (iOS especially), so `scripts/make-sequence.mjs` turns the video into WebP frames (desktop and mobile sizes) and a `manifest.json` under `public/media/`.
+- Verdicts: "Media and court on the scales". `lib/balance.ts` weighs unsupported media claims (media pan) against court timeline events no article mentioned (court pan), scaled down below 5 claims. The rendered scales clip has five ending variants (`media-heavy`, `media-leaning`, `balanced`, `court-leaning`, `court-heavy`); until they exist, `BalanceScales` (SVG, spring tilt) stands in. The counts are always shown as text.
+- Assets are checked on the server (`lib/media.ts`); pages render their fallback art when they are missing.
 
 **Live Scales of Public Opinion (P1): Spring-driven data visualization.**
 - SVG balance scale where Agree votes lower the left pan and tilt the beam counter-clockwise; Disagree votes lower the right pan; Partly Agree splits evenly.

@@ -57,7 +57,9 @@ class Anonymizer:
     def text(self, value: str) -> str:
         # Longest names first so "Ravi Kumar" wins over "Ravi".
         for name in sorted(self._placeholder_for, key=len, reverse=True):
-            pattern = re.compile(rf"(?<!\w){re.escape(name)}(?!\w)", re.IGNORECASE)
+            # Any run of whitespace between name parts: judgments often wrap a name across lines.
+            parts = r"\s+".join(re.escape(part) for part in name.split())
+            pattern = re.compile(rf"(?<!\w){parts}(?!\w)", re.IGNORECASE)
             value = pattern.sub(self._placeholder_for[name], value)
         for tag, pattern in PII_PATTERNS:
             value = pattern.sub(tag, value)

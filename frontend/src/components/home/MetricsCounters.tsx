@@ -3,92 +3,66 @@
 import { useEffect, useRef, useState } from "react";
 import { animate, createScope } from "animejs";
 
+import type { components } from "@/lib/api/schema";
+
+type HomeCounters = components["schemas"]["HomeCounters"];
+
 interface CounterItem {
   label: string;
   sublabel: string;
-  targetValue: number;
-  suffix?: string;
+  value: number | null;
+  decimals: number;
 }
 
-const METRICS: CounterItem[] = [
-  {
-    label: "Cases Analysed",
-    sublabel: "Supreme Court & High Courts",
-    targetValue: 8,
-    suffix: "",
-  },
-  {
-    label: "Judicial Quotes Verified",
-    sublabel: "Verbatim quote anchored",
-    targetValue: 148,
-    suffix: "+",
-  },
-  {
-    label: "Press Claims Fact-Checked",
-    sublabel: "Audited against court findings",
-    targetValue: 312,
-    suffix: "",
-  },
-  {
-    label: "Jan Mat Impressions",
-    sublabel: "Public ballot engagements",
-    targetValue: 4250,
-    suffix: "+",
-  },
-];
+function metricsFrom(counters: HomeCounters): CounterItem[] {
+  return [
+    { label: "Cases Analysed", sublabel: "Published verdicts", value: counters.total_cases, decimals: 0 },
+    { label: "Jan Mat Votes", sublabel: "Public ballot responses", value: counters.total_votes, decimals: 0 },
+    { label: "Comments", sublabel: "Moderated public discussion", value: counters.total_comments, decimals: 0 },
+    {
+      label: "Average Perception Gap",
+      sublabel: "Across published cases, out of 100",
+      value: counters.avg_perception_gap,
+      decimals: 1,
+    },
+  ];
+}
 
-export function MetricsCounters() {
+const format = (value: number, decimals: number) =>
+  value.toLocaleString("en-IN", { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+
+/** Live platform counts from `GET /home`; counts up once on load. */
+export function MetricsCounters({ counters }: { counters: HomeCounters }) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const scopeRef = useRef<ReturnType<typeof createScope> | null>(null);
-  const [counts, setCounts] = useState<number[]>(() => METRICS.map(() => 0));
+  const metrics = metricsFrom(counters);
+  const targets = metrics.map((m) => m.value ?? 0);
+  const [counts, setCounts] = useState<number[]>(() => targets.map(() => 0));
+  const targetKey = targets.join(",");
 
   useEffect(() => {
     if (!rootRef.current) return;
+    const end = targetKey.split(",").map(Number);
 
-    scopeRef.current = createScope({
+    const scope = createScope({
       root: rootRef.current,
-      mediaQueries: {
-        reduceMotion: "(prefers-reduced-motion: reduce)",
-      },
+      mediaQueries: { reduceMotion: "(prefers-reduced-motion: reduce)" },
     }).add((self) => {
       if (!self) return;
-      const { reduceMotion } = self.matches;
-
-      if (reduceMotion) {
-        setCounts(METRICS.map((m) => m.targetValue));
+      if (self.matches.reduceMotion) {
+        setCounts(end);
         return;
       }
-
-      // Smooth count-up animation object
-      const animState = {
-        c0: 0,
-        c1: 0,
-        c2: 0,
-        c3: 0,
-      };
-
-      animate(animState, {
-        c0: METRICS[0].targetValue,
-        c1: METRICS[1].targetValue,
-        c2: METRICS[2].targetValue,
-        c3: METRICS[3].targetValue,
+      const state = { progress: 0 };
+      animate(state, {
+        progress: 1,
         duration: 1800,
         ease: "outExpo",
-        onUpdate: () => {
-          setCounts([
-            Math.round(animState.c0),
-            Math.round(animState.c1),
-            Math.round(animState.c2),
-            Math.round(animState.c3),
-          ]);
-        },
+        onUpdate: () => setCounts(end.map((v) => v * state.progress)),
       });
     });
 
-    return () => {
-      scopeRef.current?.revert();
-    };
-  }, []);
+    return () => scope.revert();
+  }, [targetKey]);
 
   return (
     <section
@@ -97,12 +71,11 @@ export function MetricsCounters() {
       aria-label="Platform Analysis Metrics"
     >
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 divide-y sm:divide-y-0 sm:divide-x divide-gold-line/40">
-        {METRICS.map((metric, i) => (
+        {metrics.map((metric, i) => (
           <div key={metric.label} className={`flex flex-col gap-1.5 ${i > 0 ? "pt-4 sm:pt-0 sm:pl-6" : ""}`}>
             <p className="eyebrow text-gold text-[10px] tracking-widest">{metric.label}</p>
             <p className="font-serif text-3xl sm:text-4xl font-bold text-ivory">
-              {counts[i].toLocaleString()}
-              <span className="text-gold text-2xl ml-0.5">{metric.suffix}</span>
+              {metric.value === null ? "—" : format(counts[i], metric.decimals)}
             </p>
             <p className="text-xs text-ivory-faint">{metric.sublabel}</p>
           </div>

@@ -4,7 +4,10 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { animate, createScope } from "animejs";
 
-export function ScalesHero() {
+import { LoopVideo } from "@/components/motion/LoopVideo";
+
+/** `video` is set by the page when the blink loop has been added to public/media. */
+export function ScalesHero({ video }: { video?: { mp4: string; webm?: string } }) {
   const rootRef = useRef<HTMLDivElement>(null);
   const scopeRef = useRef<ReturnType<typeof createScope> | null>(null);
 
@@ -119,68 +122,75 @@ export function ScalesHero() {
 
       {/* Hero Vector Scales Art */}
       <div className="w-full max-w-[380px] sm:max-w-[420px] flex items-center justify-center p-4">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 500 450"
-          className="w-full h-auto drop-shadow-2xl select-none"
-          fill="none"
-          stroke="currentColor"
-          aria-label="Scales of Justice balancing judicial findings and public perceptions"
-          role="img"
-        >
-          <defs>
-            <linearGradient id="hero-scales-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="var(--color-ivory)" />
-              <stop offset="50%" stopColor="var(--color-gold)" />
-              <stop offset="100%" stopColor="var(--color-bronze)" />
-            </linearGradient>
-            <radialGradient id="hero-pan-shadow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="var(--color-surface)" />
-              <stop offset="100%" stopColor="var(--color-ink)" />
-            </radialGradient>
-          </defs>
+        <LoopVideo
+          video={video}
+          label="Lady Justice, blindfolded, holding the scales"
+          className="h-auto w-full rounded-xl"
+          fallback={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 500 450"
+              className="w-full h-auto drop-shadow-2xl select-none"
+              fill="none"
+              stroke="currentColor"
+              aria-label="Scales of Justice balancing judicial findings and public perceptions"
+              role="img"
+            >
+              <defs>
+                <linearGradient id="hero-scales-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="var(--color-ivory)" />
+                  <stop offset="50%" stopColor="var(--color-gold)" />
+                  <stop offset="100%" stopColor="var(--color-bronze)" />
+                </linearGradient>
+                <radialGradient id="hero-pan-shadow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="var(--color-surface)" />
+                  <stop offset="100%" stopColor="var(--color-ink)" />
+                </radialGradient>
+              </defs>
 
-          {/* Fulcrum Pillar & Base */}
-          <g id="base" stroke="var(--color-gold)">
-            <rect x="175" y="400" width="150" height="24" rx="4" fill="url(#hero-pan-shadow)" strokeWidth="2" />
-            <path d="M195 400 L215 340 L285 340 L305 400 Z" fill="url(#hero-pan-shadow)" strokeWidth="1.5" />
-            <line x1="250" y1="340" x2="250" y2="110" stroke="url(#hero-scales-gold)" strokeWidth="6" strokeLinecap="round" />
-            <circle cx="250" cy="110" r="14" fill="var(--color-surface)" stroke="var(--color-gold)" strokeWidth="3" />
-            <circle cx="250" cy="110" r="4" fill="var(--color-gold)" />
-            <path d="M250 96 L250 70 M245 75 L255 75" stroke="var(--color-gold)" strokeWidth="2" strokeLinecap="round" />
-            <polygon points="250,60 244,72 256,72" fill="var(--color-gold)" />
-          </g>
+              {/* Fulcrum Pillar & Base */}
+              <g id="base" stroke="var(--color-gold)">
+                <rect x="175" y="400" width="150" height="24" rx="4" fill="url(#hero-pan-shadow)" strokeWidth="2" />
+                <path d="M195 400 L215 340 L285 340 L305 400 Z" fill="url(#hero-pan-shadow)" strokeWidth="1.5" />
+                <line x1="250" y1="340" x2="250" y2="110" stroke="url(#hero-scales-gold)" strokeWidth="6" strokeLinecap="round" />
+                <circle cx="250" cy="110" r="14" fill="var(--color-surface)" stroke="var(--color-gold)" strokeWidth="3" />
+                <circle cx="250" cy="110" r="4" fill="var(--color-gold)" />
+                <path d="M250 96 L250 70 M245 75 L255 75" stroke="var(--color-gold)" strokeWidth="2" strokeLinecap="round" />
+                <polygon points="250,60 244,72 256,72" fill="var(--color-gold)" />
+              </g>
 
-          {/* Crossbeam with Pivot at (250, 110) */}
-          <g id="beam" style={{ transformOrigin: "250px 110px" }}>
-            <path d="M70 110 Q250 100 430 110 Q250 120 70 110 Z" fill="url(#hero-scales-gold)" stroke="var(--color-gold)" strokeWidth="1" />
-            <circle cx="250" cy="110" r="6" fill="var(--color-gold)" stroke="var(--color-ink)" strokeWidth="2" />
-            <circle cx="85" cy="110" r="4" fill="var(--color-surface)" stroke="var(--color-gold)" strokeWidth="2" />
-            <circle cx="415" cy="110" r="4" fill="var(--color-surface)" stroke="var(--color-gold)" strokeWidth="2" />
+              {/* Crossbeam with Pivot at (250, 110) */}
+              <g id="beam" style={{ transformOrigin: "250px 110px" }}>
+                <path d="M70 110 Q250 100 430 110 Q250 120 70 110 Z" fill="url(#hero-scales-gold)" stroke="var(--color-gold)" strokeWidth="1" />
+                <circle cx="250" cy="110" r="6" fill="var(--color-gold)" stroke="var(--color-ink)" strokeWidth="2" />
+                <circle cx="85" cy="110" r="4" fill="var(--color-surface)" stroke="var(--color-gold)" strokeWidth="2" />
+                <circle cx="415" cy="110" r="4" fill="var(--color-surface)" stroke="var(--color-gold)" strokeWidth="2" />
 
-            {/* Left Pan (Suspension point 85, 110) */}
-            <g id="pan-left" style={{ transformOrigin: "85px 110px" }}>
-              <line x1="85" y1="114" x2="35" y2="250" stroke="var(--color-gold)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="85" y1="114" x2="85" y2="250" stroke="var(--color-gold)" strokeWidth="1" strokeDasharray="3 3" opacity="0.6" />
-              <line x1="85" y1="114" x2="135" y2="250" stroke="var(--color-gold)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <path d="M25 250 Q85 285 145 250 Q85 255 25 250 Z" fill="url(#hero-pan-shadow)" stroke="var(--color-gold)" strokeWidth="2" />
-              <text x="85" y="272" textAnchor="middle" fill="var(--color-ivory-muted)" fontSize="10" letterSpacing="1" fontFamily="var(--font-sans)">
-                COURT
-              </text>
-            </g>
+                {/* Left Pan (Suspension point 85, 110) */}
+                <g id="pan-left" style={{ transformOrigin: "85px 110px" }}>
+                  <line x1="85" y1="114" x2="35" y2="250" stroke="var(--color-gold)" strokeWidth="1.5" strokeDasharray="3 3" />
+                  <line x1="85" y1="114" x2="85" y2="250" stroke="var(--color-gold)" strokeWidth="1" strokeDasharray="3 3" opacity="0.6" />
+                  <line x1="85" y1="114" x2="135" y2="250" stroke="var(--color-gold)" strokeWidth="1.5" strokeDasharray="3 3" />
+                  <path d="M25 250 Q85 285 145 250 Q85 255 25 250 Z" fill="url(#hero-pan-shadow)" stroke="var(--color-gold)" strokeWidth="2" />
+                  <text x="85" y="272" textAnchor="middle" fill="var(--color-ivory-muted)" fontSize="10" letterSpacing="1" fontFamily="var(--font-sans)">
+                    COURT
+                  </text>
+                </g>
 
-            {/* Right Pan (Suspension point 415, 110) */}
-            <g id="pan-right" style={{ transformOrigin: "415px 110px" }}>
-              <line x1="415" y1="114" x2="365" y2="250" stroke="var(--color-gold)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <line x1="415" y1="114" x2="415" y2="250" stroke="var(--color-gold)" strokeWidth="1" strokeDasharray="3 3" opacity="0.6" />
-              <line x1="415" y1="114" x2="465" y2="250" stroke="var(--color-gold)" strokeWidth="1.5" strokeDasharray="3 3" />
-              <path d="M355 250 Q415 285 475 250 Q415 255 355 250 Z" fill="url(#hero-pan-shadow)" stroke="var(--color-gold)" strokeWidth="2" />
-              <text x="415" y="272" textAnchor="middle" fill="var(--color-ivory-muted)" fontSize="10" letterSpacing="1" fontFamily="var(--font-sans)">
-                PUBLIC
-              </text>
-            </g>
-          </g>
-        </svg>
+                {/* Right Pan (Suspension point 415, 110) */}
+                <g id="pan-right" style={{ transformOrigin: "415px 110px" }}>
+                  <line x1="415" y1="114" x2="365" y2="250" stroke="var(--color-gold)" strokeWidth="1.5" strokeDasharray="3 3" />
+                  <line x1="415" y1="114" x2="415" y2="250" stroke="var(--color-gold)" strokeWidth="1" strokeDasharray="3 3" opacity="0.6" />
+                  <line x1="415" y1="114" x2="465" y2="250" stroke="var(--color-gold)" strokeWidth="1.5" strokeDasharray="3 3" />
+                  <path d="M355 250 Q415 285 475 250 Q415 255 355 250 Z" fill="url(#hero-pan-shadow)" stroke="var(--color-gold)" strokeWidth="2" />
+                  <text x="415" y="272" textAnchor="middle" fill="var(--color-ivory-muted)" fontSize="10" letterSpacing="1" fontFamily="var(--font-sans)">
+                    PUBLIC
+                  </text>
+                </g>
+              </g>
+            </svg>
+          }
+        />
       </div>
     </div>
   );

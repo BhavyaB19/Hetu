@@ -165,6 +165,20 @@ full article text. If extraction fails, load the cached collection again later w
 To load a bundle you wrote yourself, use `backend/fixtures/jan-mat-v-state.json` as the template, leave out the
 `judgment`, `media` and `public` sections, and run `python -m app.cli load path/to/case.json`.
 
+### Lady Justice and scales footage
+
+The home hero, the Jan Mat opening and the verdict scales use video footage in `frontend/public/media/`. Until
+it is added, the pages show the vector art instead. With `ffmpeg` installed, from `frontend/`:
+
+| File | What it is |
+|---|---|
+| `public/media/lady/blink.mp4` (and optional `.webm`) | 3 to 5 s blink loop, muted, used on Home and before the Jan Mat scroll |
+| `node scripts/make-sequence.mjs reveal.mp4 lady/reveal` | Jan Mat: she turns, the camera moves in to her face, the blindfold falls away. First frame matches the blink loop |
+| `node scripts/make-sequence.mjs <clip>.mp4 scales/<variant>` | Verdicts: zoom on the scales, ending tilted. One clip per variant: `media-heavy`, `media-leaning`, `balanced`, `court-leaning`, `court-heavy` (Media is the left pan) |
+
+The script writes WebP frames for desktop and mobile plus a `manifest.json`; scrolling picks the frame, so the
+footage plays forward and in reverse smoothly. Record the footage's licence and attribution on `/methodology`.
+
 ### Choosing the LLM
 
 `LLM_PROVIDER` in `.env` decides which LLM extracts the data. Only that provider is used, and only its key needs to
