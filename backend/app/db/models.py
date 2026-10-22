@@ -17,6 +17,7 @@ from sqlalchemy import (
     ForeignKey,
     ForeignKeyConstraint,
     Index,
+    Integer,
     String,
     Text,
     UniqueConstraint,
@@ -299,3 +300,74 @@ class Correction(Base):
     status: Mapped[str] = mapped_column(String(20), default="pending", server_default="pending")
     created_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
+
+class CauseList(Base):
+    """One published cause list PDF from a court, as fetched for the Live Docket."""
+
+    __tablename__ = "cause_lists"
+    __table_args__ = (
+        CheckConstraint("kind IN ('daily', 'advance')", name="ck_cause_lists_kind"),
+        Index("idx_cause_lists_date", "list_date"),
+    )
+
+    id: Mapped[uuid.UUID] = _id()
+    court_code: Mapped[str] = mapped_column(String(20))  # "SCI" for the Supreme Court of India
+    list_date: Mapped[dt.date] = mapped_column(Date)
+    kind: Mapped[str] = mapped_column(String(20))
+    part: Mapped[str] = mapped_column(String(40))  # file code on the court's site, e.g. "M_J_1"
+    source_url: Mapped[str] = mapped_column(Text, unique=True)
+    content_hash: Mapped[str] = mapped_column(String(64))
+    item_count: Mapped[int] = mapped_column(Integer, default=0)
+    fetched_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True))
+
+    listings: Mapped[list["Listing"]] = relationship(cascade="all, delete-orphan", passive_deletes=True)
+
+
+class Listing(Base):
+    """One matter listed in a cause list. Private parties are stored anonymised."""
+
+    __tablename__ = "listings"
+    __table_args__ = (
+        Index("idx_listings_date_court", "list_date", "court"),
+        Index("idx_listings_case_key", "case_key"),
+        Index("idx_listings_notable_date", "notable", "list_date"),
+    )
+
+    id: Mapped[uuid.UUID] = _id()
+    cause_list_id: Mapped[uuid.UUID] = mapped_column(
+        ForeignKey("cause_lists.id", ondelete="CASCADE"), index=True
+    )
+    list_date: Mapped[dt.date] = mapped_column(Date)
+    kind: Mapped[str] = mapped_column(String(20))
+    court: Mapped[str | None] = mapped_column(String(60), nullable=True)
+    bench: Mapped[list[str]] = mapped_column(Json)
+    bench_size: Mapped[int] = mapped_column(Integer, default=0)
+    sitting_time: Mapped[str | None] = mapped_column(String(20), nullable=True)
+    time_note: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    heading: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    item_no: Mapped[str] = mapped_column(String(12))
+    case_number: Mapped[str] = mapped_column(String(160))
+    case_key: Mapped[str] = mapped_column(String(160))  # normalised for search, e.g. "slpcrl78572022"
+    case_type: Mapped[str] = mapped_column(String(80))
+    is_criminal: Mapped[bool] = mapped_column(default=False)
+    petitioner: Mapped[str] = mapped_column(Text)
+    respondent: Mapped[str] = mapped_column(Text)
+    advocates: Mapped[list[str]] = mapped_column(Json)
+    stage: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    notable: Mapped[bool] = mapped_column(default=False)
+
+
+class TrackedMatter(Base):
+    """A matter a curator follows on the Live Docket and the Home page."""
+
+    __tablename__ = "tracked_matters"
+
+    id: Mapped[uuid.UUID] = _id()
+    case_key: Mapped[str] = mapped_column(String(160), unique=True)
+    case_number: Mapped[str] = mapped_column(String(160))
+    title: Mapped[str] = mapped_column(String(200))
+    note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    case_id: Mapped[uuid.UUID | None] = mapped_column(
+        ForeignKey("cases.id", ondelete="SET NULL"), nullable=True, index=True
+    )
+    created_at: Mapped[dt.datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())

@@ -248,3 +248,66 @@ class HomeSummaryView(BaseModel):
     poll_of_the_week: PollView | None
     counters: HomeCounters
 
+
+class ListingView(BaseModel):
+    """One matter in a court's cause list. Private parties appear only by their role."""
+
+    list_date: dt.date
+    tentative: bool = Field(description="True for advance lists: likely, not confirmed.")
+    court: str | None
+    bench: list[str]
+    bench_size: int
+    sitting_time: str | None
+    time_note: str | None
+    item_no: str
+    case_number: str
+    case_type: str
+    is_criminal: bool
+    petitioner: str
+    respondent: str
+    advocates: list[str]
+    stage: str | None
+    notable: bool
+    source_url: str
+
+
+class DocketDayView(BaseModel):
+    list_date: dt.date
+    tentative: bool
+    matters: int
+    courts: int
+
+
+class DocketView(BaseModel):
+    days: list[DocketDayView]
+    results: list[ListingView]
+    total: int
+    last_checked: dt.datetime | None
+
+
+class TrackedMatterView(BaseModel):
+    id: str
+    case_number: str
+    title: str
+    note: str | None
+    case_slug: str | None
+    next_listing: ListingView | None
+
+
+class DocketHighlightsView(BaseModel):
+    tracked: list[TrackedMatterView]
+    notable: list[ListingView]
+    next_day: DocketDayView | None
+    last_checked: dt.datetime | None
+
+
+class TrackedMatterRequest(BaseModel):
+    case_number: str = Field(min_length=4, max_length=160, description='e.g. "SLP(Crl) No. 7857/2022"')
+    title: str = Field(min_length=3, max_length=200, description="Public title; no private names.")
+    note: str | None = Field(default=None, max_length=1000)
+    case_slug: str | None = None
+
+
+class DocketRefreshView(BaseModel):
+    started: bool
+    message: str

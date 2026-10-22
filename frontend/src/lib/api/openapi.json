@@ -1,4 +1,4 @@
-﻿{
+{
   "openapi": "3.1.0",
   "info": {
     "title": "Hetu API",
@@ -379,6 +379,219 @@
                 }
               }
             }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/docket/refresh": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Refresh Docket",
+        "description": "Fetch the Supreme Court's current cause lists in the background. Admin only.",
+        "operationId": "refresh_docket_admin_docket_refresh_post",
+        "parameters": [
+          {
+            "name": "x-admin-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Admin-Key"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocketRefreshView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/docket/tracked": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "List Tracked",
+        "operationId": "list_tracked_admin_docket_tracked_get",
+        "parameters": [
+          {
+            "name": "x-admin-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Admin-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TrackedMatterView"
+                  },
+                  "title": "Response List Tracked Admin Docket Tracked Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Track Matter",
+        "description": "Follow a Supreme Court matter by its case number. Admin only.",
+        "operationId": "track_matter_admin_docket_tracked_post",
+        "parameters": [
+          {
+            "name": "x-admin-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Admin-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrackedMatterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrackedMatterView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/docket/tracked/{tracked_id}": {
+      "delete": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "Untrack Matter",
+        "operationId": "untrack_matter_admin_docket_tracked__tracked_id__delete",
+        "parameters": [
+          {
+            "name": "tracked_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Tracked Id"
+            }
+          },
+          {
+            "name": "x-admin-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Admin-Key"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successful Response"
           },
           "422": {
             "description": "Validation Error",
@@ -794,6 +1007,162 @@
           }
         }
       }
+    },
+    "/docket": {
+      "get": {
+        "tags": [
+          "docket"
+        ],
+        "summary": "Search Docket",
+        "operationId": "search_docket_docket_get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 120
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Case number, judge or advocate",
+              "title": "Q"
+            },
+            "description": "Case number, judge or advocate"
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "One listing date",
+              "title": "Date"
+            },
+            "description": "One listing date"
+          },
+          {
+            "name": "court",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 60
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "e.g. \"Court 4\"",
+              "title": "Court"
+            },
+            "description": "e.g. \"Court 4\""
+          },
+          {
+            "name": "criminal",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Criminal"
+            }
+          },
+          {
+            "name": "notable",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Notable"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 5000,
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocketView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/docket/highlights": {
+      "get": {
+        "tags": [
+          "docket"
+        ],
+        "summary": "Docket Highlights",
+        "description": "Tracked matters' next hearings and the coming Constitution and larger benches.",
+        "operationId": "docket_highlights_docket_highlights_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DocketHighlightsView"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1201,6 +1570,143 @@
         ],
         "title": "CommentVoteView"
       },
+      "DocketDayView": {
+        "properties": {
+          "list_date": {
+            "type": "string",
+            "format": "date",
+            "title": "List Date"
+          },
+          "tentative": {
+            "type": "boolean",
+            "title": "Tentative"
+          },
+          "matters": {
+            "type": "integer",
+            "title": "Matters"
+          },
+          "courts": {
+            "type": "integer",
+            "title": "Courts"
+          }
+        },
+        "type": "object",
+        "required": [
+          "list_date",
+          "tentative",
+          "matters",
+          "courts"
+        ],
+        "title": "DocketDayView"
+      },
+      "DocketHighlightsView": {
+        "properties": {
+          "tracked": {
+            "items": {
+              "$ref": "#/components/schemas/TrackedMatterView"
+            },
+            "type": "array",
+            "title": "Tracked"
+          },
+          "notable": {
+            "items": {
+              "$ref": "#/components/schemas/ListingView"
+            },
+            "type": "array",
+            "title": "Notable"
+          },
+          "next_day": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DocketDayView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "last_checked": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Checked"
+          }
+        },
+        "type": "object",
+        "required": [
+          "tracked",
+          "notable",
+          "next_day",
+          "last_checked"
+        ],
+        "title": "DocketHighlightsView"
+      },
+      "DocketRefreshView": {
+        "properties": {
+          "started": {
+            "type": "boolean",
+            "title": "Started"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "started",
+          "message"
+        ],
+        "title": "DocketRefreshView"
+      },
+      "DocketView": {
+        "properties": {
+          "days": {
+            "items": {
+              "$ref": "#/components/schemas/DocketDayView"
+            },
+            "type": "array",
+            "title": "Days"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/ListingView"
+            },
+            "type": "array",
+            "title": "Results"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total"
+          },
+          "last_checked": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Checked"
+          }
+        },
+        "type": "object",
+        "required": [
+          "days",
+          "results",
+          "total",
+          "last_checked"
+        ],
+        "title": "DocketView"
+      },
       "Evidence": {
         "properties": {
           "document": {
@@ -1558,6 +2064,136 @@
           "evidence"
         ],
         "title": "JudgmentView"
+      },
+      "ListingView": {
+        "properties": {
+          "list_date": {
+            "type": "string",
+            "format": "date",
+            "title": "List Date"
+          },
+          "tentative": {
+            "type": "boolean",
+            "title": "Tentative",
+            "description": "True for advance lists: likely, not confirmed."
+          },
+          "court": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Court"
+          },
+          "bench": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Bench"
+          },
+          "bench_size": {
+            "type": "integer",
+            "title": "Bench Size"
+          },
+          "sitting_time": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sitting Time"
+          },
+          "time_note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Time Note"
+          },
+          "item_no": {
+            "type": "string",
+            "title": "Item No"
+          },
+          "case_number": {
+            "type": "string",
+            "title": "Case Number"
+          },
+          "case_type": {
+            "type": "string",
+            "title": "Case Type"
+          },
+          "is_criminal": {
+            "type": "boolean",
+            "title": "Is Criminal"
+          },
+          "petitioner": {
+            "type": "string",
+            "title": "Petitioner"
+          },
+          "respondent": {
+            "type": "string",
+            "title": "Respondent"
+          },
+          "advocates": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Advocates"
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stage"
+          },
+          "notable": {
+            "type": "boolean",
+            "title": "Notable"
+          },
+          "source_url": {
+            "type": "string",
+            "title": "Source Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "list_date",
+          "tentative",
+          "court",
+          "bench",
+          "bench_size",
+          "sitting_time",
+          "time_note",
+          "item_no",
+          "case_number",
+          "case_type",
+          "is_criminal",
+          "petitioner",
+          "respondent",
+          "advocates",
+          "stage",
+          "notable",
+          "source_url"
+        ],
+        "title": "ListingView",
+        "description": "One matter in a court's cause list. Private parties appear only by their role."
       },
       "MediaView": {
         "properties": {
@@ -2044,6 +2680,111 @@
           "evidence"
         ],
         "title": "TimelineEventView"
+      },
+      "TrackedMatterRequest": {
+        "properties": {
+          "case_number": {
+            "type": "string",
+            "maxLength": 160,
+            "minLength": 4,
+            "title": "Case Number",
+            "description": "e.g. \"SLP(Crl) No. 7857/2022\""
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 3,
+            "title": "Title",
+            "description": "Public title; no private names."
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "case_slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Case Slug"
+          }
+        },
+        "type": "object",
+        "required": [
+          "case_number",
+          "title"
+        ],
+        "title": "TrackedMatterRequest"
+      },
+      "TrackedMatterView": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "case_number": {
+            "type": "string",
+            "title": "Case Number"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "case_slug": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Case Slug"
+          },
+          "next_listing": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ListingView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "case_number",
+          "title",
+          "note",
+          "case_slug",
+          "next_listing"
+        ],
+        "title": "TrackedMatterView"
       },
       "ValidationError": {
         "properties": {

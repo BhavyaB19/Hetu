@@ -25,6 +25,9 @@ BACKEND_DIR = Path(__file__).resolve().parents[1]
 FIXTURE = BACKEND_DIR / "fixtures" / "jan-mat-v-state.json"
 
 ALL_TABLES = [
+    "listings",
+    "cause_lists",
+    "tracked_matters",
     "corrections",
     "reports",
     "comment_votes",

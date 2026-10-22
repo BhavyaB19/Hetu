@@ -1,6 +1,7 @@
 import { CauseList } from "@/components/home/CauseList";
 import { GapMeasure } from "@/components/home/GapMeasure";
 import { HomeHero } from "@/components/home/HomeHero";
+import { InCourt } from "@/components/home/InCourt";
 import { JanMatPanel } from "@/components/home/JanMatPanel";
 import { ThreeOpenings } from "@/components/home/ThreeOpenings";
 import { ErrorState } from "@/components/ui/ErrorState";
@@ -12,9 +13,10 @@ export const dynamic = "force-dynamic";
 const BLINK = { mp4: "/media/lady/blink.mp4", webm: "/media/lady/blink.webm" };
 
 export default async function Home() {
-  const [{ data: cases }, { data: home }] = await Promise.all([
+  const [{ data: cases }, { data: home }, { data: docket }] = await Promise.all([
     api.GET("/cases").catch(() => ({ data: undefined })),
     api.GET("/home").catch(() => ({ data: undefined })),
+    api.GET("/docket/highlights").catch(() => ({ data: undefined })),
   ]);
 
   const featured = home?.featured_cases[0] ?? cases?.[0];
@@ -46,6 +48,7 @@ export default async function Home() {
       )}
 
       {cases && cases.length > 0 && <CauseList cases={cases} />}
+      {docket && <InCourt highlights={docket} />}
       <JanMatPanel poll={poll} />
     </div>
   );
