@@ -10,13 +10,16 @@ import { PublicReaction } from "@/components/PublicReaction";
 import { Section } from "@/components/Section";
 import { Timeline } from "@/components/Timeline";
 import { ErrorState } from "@/components/ui/ErrorState";
+import { CoverageBalance } from "@/components/verdicts/CoverageBalance";
 import { api } from "@/lib/api";
+import { coverageBalance } from "@/lib/balance";
 import { date } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
 const NAV = [
   ["timeline", "Timeline"],
+  ["balance", "Balance"],
   ["court-vs-media", "Court vs Media"],
   ["public", "Public Reaction"],
   ["coverage", "Coverage"],
@@ -62,6 +65,7 @@ export default async function VerdictPage({ params }: { params: Promise<{ slug: 
     );
   }
   const { case: info } = view;
+  const balance = coverageBalance(view);
 
   return (
     <div className="flex flex-col gap-12">
@@ -108,6 +112,12 @@ export default async function VerdictPage({ params }: { params: Promise<{ slug: 
       {view.timeline.length > 0 && (
         <Section id="timeline" eyebrow="Escalation" title="Case timeline">
           <Timeline events={view.timeline} />
+        </Section>
+      )}
+
+      {balance && (
+        <Section id="balance" eyebrow="Weighing the coverage" title="Media and court on the scales">
+          <CoverageBalance balance={balance} />
         </Section>
       )}
 

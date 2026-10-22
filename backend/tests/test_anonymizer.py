@@ -21,6 +21,11 @@ def test_case_and_possessives(anon):
     assert anon.text("RAVI KUMAR's motorcycle") == "[ACCUSED_1]'s motorcycle"
 
 
+def test_names_wrapped_across_lines(anon):
+    # Judgment text often breaks a name over a line with indentation.
+    assert anon.text("co-accused Sunita\n      Devi was arrested") == "co-accused [VICTIM_1] was arrested"
+
+
 def test_names_inside_other_words_are_left_alone(anon):
     # "Ravi" must not be replaced inside "Ravindra"; "Mohan Lal" not inside "Mohan Lalwani".
     assert anon.text("Ravindra met Mohan Lalwani") == "Ravindra met Mohan Lalwani"

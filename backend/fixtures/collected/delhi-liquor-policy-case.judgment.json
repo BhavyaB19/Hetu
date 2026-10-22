@@ -1,0 +1,225 @@
+{
+  "content_hash": "9e5d6c18af9a1dc0b878237466c71ba011f588ab771dec685a511c4d4bea927d",
+  "judgment": {
+    "document": "judgment",
+    "facts": "This judgment decides recusal requests by six discharged accused in the CBI's revision challenging the Delhi Excise Policy discharge order, not the merits of the alleged offences. The court found that advance copies had been served on their Trial Court counsel, who also represented them in the High Court, and that the discharge order had never been stayed. It found that earlier arrest and bail observations were provisional and that neither attendance at legal events nor relatives' government-panel work established a connection with the dispute or an interest in its outcome.",
+    "motive": "No motive for the underlying alleged offences was determined in this recusal judgment. The court characterized the recusal requests as resting on conjecture and subjective apprehensions, and considered that accepting such grounds would enable forum shopping.",
+    "trigger": "The principal immediate procedural trigger was the interim order of 09.03.2026, whose preliminary observations and limited relief the applicants said created an apprehension of bias. Other asserted grounds concerned earlier judgments, professional events, relatives' government-panel engagements, and public or social-media statements.",
+    "court_reasoning": "The court applied an objective reasonable-apprehension standard and held that subjective unease, unsupported suspicion, and adverse interim orders did not establish grounds for recusal. Earlier arrest and bail decisions involved different legal tests and expressly provisional observations, rather than a final determination of guilt. The court found no tangible nexus between the judge's relatives' professional engagements and this case, and no political statement or conduct supporting the allegation based on attendance at legal events. It held that unjustified withdrawal would undermine judicial independence and permit litigants to influence bench selection.",
+    "outcome": "All recusal applications, including the oral request considered for Respondent No. 5, were rejected. The judge retained the case and stated that the main revision would be heard independently on its merits, unaffected by the recusal applications. No conviction, acquittal, or sentence was pronounced; the accused remained discharged pending determination of the revision.",
+    "outcome_direction": "other",
+    "legal_provisions": [
+      "Section 19, Prevention of Money Laundering Act, 2002",
+      "Section 45, Prevention of Money Laundering Act, 2002",
+      "Order XXXIX Rules 1 and 2, Code of Civil Procedure"
+    ],
+    "timeline": [
+      {
+        "date": "2026-02-27",
+        "label": "Trial Court discharge",
+        "description": "The Trial Court passed the discharge order subsequently challenged by the CBI. The High Court emphasized that discharge was not an acquittal.",
+        "phase": "trial",
+        "court_weight": 0.85,
+        "evidence": {
+          "document": "judgment",
+          "quote": "impugned discharge order dated 27.02.2026"
+        }
+      },
+      {
+        "date": "2026-03-09",
+        "label": "Interim revision order",
+        "description": "The High Court issued notice, recorded preliminary observations, stayed remarks and consequential departmental action against the investigating officer, and directed adjournment of the connected ED proceedings. It did not stay the discharge order.",
+        "phase": "appeal",
+        "court_weight": 1.0,
+        "evidence": {
+          "document": "judgment",
+          "quote": "The impugned discharge order however was never stayed by this Court."
+        }
+      },
+      {
+        "date": "2026-03-14",
+        "label": "Supreme Court challenges",
+        "description": "Kejriwal filed petitions concerning transfer of the case and the interim order. The court recorded that the challenge to the interim order remained under office objections and that the transfer writ was subsequently withdrawn.",
+        "phase": "appeal",
+        "court_weight": 0.65,
+        "evidence": {
+          "document": "judgment",
+          "quote": "despite the said petitions having been filed on 14.03.2026"
+        }
+      },
+      {
+        "date": "2026-04-06",
+        "label": "Recusal application presented",
+        "description": "Kejriwal appeared personally and informed the court that he had filed a recusal application. The court recorded that withdrawal of his Supreme Court transfer writ was disclosed only after inquiry.",
+        "phase": "appeal",
+        "court_weight": 0.65,
+        "evidence": {
+          "document": "judgment",
+          "quote": "he had filed a recusal application before this Court"
+        }
+      },
+      {
+        "date": "2026-04-20",
+        "label": "Recusal requests dismissed",
+        "description": "The High Court rejected the recusal requests and retained the main revision for an independent hearing on its merits.",
+        "phase": "verdict",
+        "court_weight": 1.0,
+        "evidence": {
+          "document": "judgment",
+          "quote": "The applications seeking recusal are, therefore, rejected"
+        }
+      }
+    ],
+    "evidence": {
+      "facts": {
+        "document": "judgment",
+        "quote": "In fact, the accused persons continue to remain discharged and the discharge order remains fully intact."
+      },
+      "motive": {
+        "document": "judgment",
+        "quote": "the narrative constructed in the applications for recusal was found to be based on conjectures"
+      },
+      "trigger": {
+        "document": "judgment",
+        "quote": "One of the major grounds on which recusal has been sought is the order dated 09.03.2026"
+      },
+      "court_reasoning": {
+        "document": "judgment",
+        "quote": "Suspicion without substance, and apprehension without foundation, cannot become grounds to seek recusal of a Judge"
+      },
+      "outcome": {
+        "document": "judgment",
+        "quote": "In view thereof, the applications filed by the applicants are accordingly dismissed."
+      }
+    }
+  },
+  "people": [
+    {
+      "name": "Kuldeep Singh",
+      "role": "accused",
+      "aliases": []
+    },
+    {
+      "name": "Vijay Nair",
+      "role": "accused",
+      "aliases": []
+    },
+    {
+      "name": "Arun Ramachandran Pillai",
+      "role": "accused",
+      "aliases": [
+        "Arun Ramchandran Pillai",
+        "Arun Ramachandra Pillai"
+      ]
+    },
+    {
+      "name": "Manish Sisodia",
+      "role": "accused",
+      "aliases": []
+    },
+    {
+      "name": "Rajesh Joshi",
+      "role": "accused",
+      "aliases": []
+    },
+    {
+      "name": "Arvind Kejriwal",
+      "role": "accused",
+      "aliases": [
+        "Kejriwal"
+      ]
+    },
+    {
+      "name": "Durgesh Pathak",
+      "role": "accused",
+      "aliases": []
+    },
+    {
+      "name": "Amandeep Singh Dhall",
+      "role": "accused",
+      "aliases": []
+    },
+    {
+      "name": "Sanjay Singh",
+      "role": "accused",
+      "aliases": []
+    },
+    {
+      "name": "Satyendra Kumar Jain",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Ranjit Thakur",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Kanaklata",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Neelam Manmohan Attavar",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Manmohan Attavar",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Kaushal K. Verma",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Chhail Bihari Goswami",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Manohar Lal",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Sajid",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Rajpal",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Shekhar Prasad Mahto",
+      "role": "other",
+      "aliases": [
+        "Shekhar Kushwaha"
+      ]
+    },
+    {
+      "name": "Trishala",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "M.V. Sundar Raj",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Chandra Kumar Chopra",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Ashwini Kumar Upadhyay",
+      "role": "other",
+      "aliases": []
+    }
+  ]
+}

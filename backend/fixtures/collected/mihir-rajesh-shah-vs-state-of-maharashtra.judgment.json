@@ -1,0 +1,227 @@
+{
+  "content_hash": "431bb84a8466343a6f50a5394f668bc823c2453c1f7f286f229509b2dcd486cc",
+  "judgment": {
+    "document": "judgment",
+    "facts": "The judgment recounts that on 7 July 2024 a speeding BMW struck the complainant’s scooter from behind, injuring him and fatally dragging his wife; the investigation identified Mihir Rajesh Shah as the driver. Shah was apprehended on 9 July 2024 and challenged his arrest because written grounds of arrest had not been supplied. The Bombay High Court upheld the arrest despite that lapse. The Supreme Court considered the general legal requirements for communicating grounds of arrest, expressly declining to entertain the lead case on its merits.",
+    "motive": "No motive for the collision was determined in this judgment; the Supreme Court confined its consideration to the legal requirements governing communication of grounds of arrest.",
+    "trigger": "The incident began when a speeding BMW struck the complainant’s scooter from behind. No preceding confrontation or other immediate precipitating event is identified.",
+    "court_reasoning": "The Court held that written grounds of arrest, supplied in a language the arrestee understands, are necessary to make Article 22(1) effective by enabling legal consultation and opposition to remand. This safeguard applies to offences under every statute, not merely special enactments. Where immediate written communication is impracticable, oral communication may initially suffice, but written grounds must follow within a reasonable time and at least two hours before production for remand; non-compliance renders arrest and subsequent remand illegal. Recognising the previous lack of a consistent binding requirement across all offences, the Court directed that the clarified procedure govern arrests henceforth.",
+    "outcome": "The appeals were disposed of without a conviction, acquittal or sentence. The lead appeal, Criminal Appeal No. 2195 of 2025, was disposed of after clarification of the law, without merits relief. Bail in Criminal Appeals Nos. 2189 and 2190 of 2025 continued, subject to the prosecution seeking custody with written grounds and supporting reasons. Interim bail in S.L.P. (Crl.) No. 8704 of 2025 also continued, and that petition was directed to be listed before an appropriate bench.",
+    "outcome_direction": "other",
+    "legal_provisions": [
+      "Article 21 of the Constitution of India",
+      "Article 22(1) of the Constitution of India",
+      "Article 22(5) of the Constitution of India",
+      "Section 50 CrPC 1973",
+      "Section 47 BNSS 2023",
+      "Section 50A CrPC 1973",
+      "Section 48 BNSS 2023",
+      "Section 38 BNSS 2023",
+      "Section 167 CrPC 1973",
+      "Section 187 BNSS 2023",
+      "Section 57 CrPC 1973",
+      "Section 58 BNSS 2023",
+      "Section 41A CrPC 1973",
+      "Sections 35(3) to 35(6) BNSS 2023",
+      "Section 19(1) Prevention of Money Laundering Act, 2002"
+    ],
+    "timeline": [
+      {
+        "date": "2024-07-07",
+        "label": "Fatal BMW collision",
+        "description": "A speeding BMW struck the complainant’s scooter. His wife suffered fatal injuries after being dragged, and he sustained minor injuries.",
+        "phase": "incident",
+        "court_weight": 0.25,
+        "evidence": {
+          "document": "judgment",
+          "quote": "a white BMW car, driven at a high speed, collided violently with the complainant’s scooter from behind."
+        }
+      },
+      {
+        "date": "2024-07-07",
+        "label": "Co-accused taken into custody",
+        "description": "Investigators identified the vehicle through CCTV footage, discovered the damaged BMW, and took Rajrishi Rajendra Singh Bindawat into custody that day.",
+        "phase": "investigation",
+        "court_weight": 0.15,
+        "evidence": {
+          "document": "judgment",
+          "quote": "co-accused Rajrishi Rajendra Singh Bindawat being taken into custody on the same day"
+        }
+      },
+      {
+        "date": "2024-07-09",
+        "label": "Mihir Shah apprehended",
+        "description": "Shah was apprehended and subsequently placed in police and judicial custody. His challenge concerned the failure to furnish written grounds of arrest.",
+        "phase": "investigation",
+        "court_weight": 0.65,
+        "evidence": {
+          "document": "judgment",
+          "quote": "Mihir Rajesh Shah being apprehended on 09.07.2024."
+        }
+      },
+      {
+        "date": "2024-11-25",
+        "label": "High Court upholds arrest",
+        "description": "The Bombay High Court upheld the arrest despite the absence of written grounds, relying on Shah’s awareness of the offence, evidence and evasion of arrest.",
+        "phase": "appeal",
+        "court_weight": 0.75,
+        "evidence": {
+          "document": "judgment",
+          "quote": "the High Court of Bombay, notwithstanding the acknowledgment of this procedural lapse, upheld the validity of arrest"
+        }
+      },
+      {
+        "date": "2025-04-22",
+        "label": "Leave and interim bail",
+        "description": "The Supreme Court granted leave, formulated questions concerning communication of grounds of arrest, and granted interim bail in Criminal Appeals Nos. 2189 and 2190 of 2025.",
+        "phase": "appeal",
+        "court_weight": 0.65,
+        "evidence": {
+          "document": "judgment",
+          "quote": "has granted ad interim relief and directed the Appellants to be released on bail during pendency of these Appeals."
+        }
+      },
+      {
+        "date": "2025-06-02",
+        "label": "Connected petition interim bail",
+        "description": "S.L.P. (Crl.) No. 8704 of 2025 was tagged with the appeals, and its petitioner received interim bail.",
+        "phase": "appeal",
+        "court_weight": 0.35,
+        "evidence": {
+          "document": "judgment",
+          "quote": "ad interim relief was also granted to the Petitioner therein directing his release on bail."
+        }
+      },
+      {
+        "date": "2025-11-06",
+        "label": "Written arrest grounds mandated",
+        "description": "The Supreme Court prescribed written grounds of arrest for all offences, permitted limited initial oral communication in exigent circumstances, and required written supply at least two hours before remand production. The clarified procedure applies henceforth; the appeals were disposed of and the connected petition remained pending with interim bail continuing.",
+        "phase": "appeal",
+        "court_weight": 1.0,
+        "evidence": {
+          "document": "judgment",
+          "quote": "The ends of fairness and legal discipline therefore demand that this procedure as affirmed above shall govern arrests henceforth."
+        }
+      }
+    ],
+    "evidence": {
+      "facts": {
+        "document": "judgment",
+        "quote": "The evidence collected firmly established the Appellant as the driver at the material time"
+      },
+      "motive": {
+        "document": "judgment",
+        "quote": "notice was issued only to settle the issues to bring about clarity thereon"
+      },
+      "trigger": {
+        "document": "judgment",
+        "quote": "a white BMW car, driven at a high speed, collided violently with the complainant’s scooter from behind."
+      },
+      "court_reasoning": {
+        "document": "judgment",
+        "quote": "The grounds of arrest must be communicated in writing to the arrestee in the language he/she understands;"
+      },
+      "outcome": {
+        "document": "judgment",
+        "quote": "The Appeals are disposed of in the above terms."
+      }
+    }
+  },
+  "people": [
+    {
+      "name": "Mihir Rajesh Shah",
+      "role": "accused",
+      "aliases": []
+    },
+    {
+      "name": "Rajrishi Rajendra Singh Bindawat",
+      "role": "accused",
+      "aliases": []
+    },
+    {
+      "name": "Rajesh Shah",
+      "role": "relative",
+      "aliases": []
+    },
+    {
+      "name": "Pankaj Bansal",
+      "role": "accused",
+      "aliases": []
+    },
+    {
+      "name": "Basant Bansal",
+      "role": "accused",
+      "aliases": []
+    },
+    {
+      "name": "Prabir Purkayastha",
+      "role": "accused",
+      "aliases": []
+    },
+    {
+      "name": "Vihaan Kumar",
+      "role": "accused",
+      "aliases": []
+    },
+    {
+      "name": "V. Senthil Balaji",
+      "role": "accused",
+      "aliases": []
+    },
+    {
+      "name": "Moin Akhtar Qureshi",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Chhagan Chandrakant Bhujbal",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Roy V.D.",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Arnesh Kumar",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Joginder Kumar",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Suhas Chakma",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Ashok",
+      "role": "accused",
+      "aliases": []
+    },
+    {
+      "name": "Manubhai Ratilal Patel",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Harikisan",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Atma Ram Sridhar Vaidya",
+      "role": "other",
+      "aliases": []
+    },
+    {
+      "name": "Lallubhai Jogibhai Patel",
+      "role": "other",
+      "aliases": []
+    }
+  ]
+}
